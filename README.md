@@ -24,6 +24,9 @@ import urllib2,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b7
 * SmartMarkdown
 * Markdown Preview
 
+## typora
+* https://typora.io/
+
 # Ref
 
 ## Markdown CheatSheet (꼭! 한번 보세요!)
