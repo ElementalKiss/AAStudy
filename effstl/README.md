@@ -6,11 +6,11 @@
 
 * elki
 * ralf
-* noname. wonder woman.(What's your name?)
+* pjel
 
 # Goal
 
-* STL에 대마왕이 되는 것.
+* STL의 대마왕이 되는 것.
 
 # Prepare
 
