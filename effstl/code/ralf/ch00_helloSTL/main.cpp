@@ -1,9 +1,13 @@
-#include <iostream>
-using namespace std;
+#include "extern.h"
+#include "item_02.h"
 
 void main()
 {
-	cout << "hello STL" << endl;
+	item *impl = new item_02();
 
-	cout << "hello VS 2015" << endl;
+	if (impl) {
+		impl->Execute();
+	}
+
+	SAFE_DELETE(impl);
 }
