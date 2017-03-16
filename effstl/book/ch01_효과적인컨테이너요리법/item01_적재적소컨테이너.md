@@ -6,7 +6,7 @@
 * Associative Container : set, multiset, map, multimap
 * 비표준 Sequence : slist(single linked list), rope(대용량 string).
 * 비표준 Associative Constainer : hash_set, hash_multiset, hash_map, hash_multimap.
-* String 대신 사용되는 vector<char> : 간혹 이렇게 쓰면 괜찮을 때가 있다.
+* String 대신 사용되는 vector\<char> : 간혹 이렇게 쓰면 괜찮을 때가 있다.
 * 표준 연관 컨테이너 대신 사용되는 vector : vector가 수행 속도나 크기 면에서 표준 연관 컨테이너보다 더 나은 경우가 있다.
 * STL에 속하지 않는 표준 컨테이너 : 배열(C++ 배열), bitset, valarray, stack, queue, priority_queue.
 
@@ -21,7 +21,7 @@
 ## 연속 메모리 컨테이너
 
 * 동적 할당된 하나 이상의 메모리 단위(Chunk)에다 데이터 요소를 저장해 두는 컨테이너.
-* 삽입과 삭제가 일어났을 시, 같은 메모리 단위에서 있던 다른 요소들이 압 혹은 뒤로 밀려나 공간을 만들던지 메운다.
+* 삽입과 삭제가 일어났을 시, 같은 메모리 단위에서 있던 다른 요소들이 앞 혹은 뒤로 밀려나 공간을 만들던지 메운다.
 * 수행 성능의 발목을 잡을 수 있다.
 * 예외 안전성에도 영향을 미친다.
 * vector, string, deque가 있다. (+ 비표준 컨테이너 rope)
