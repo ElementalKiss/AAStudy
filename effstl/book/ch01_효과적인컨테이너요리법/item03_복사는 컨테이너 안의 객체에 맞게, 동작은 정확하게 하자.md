@@ -4,7 +4,7 @@
 * 컨테이너에서 어떤 객체를 넣고 뺄 때 객체가 복사된다.
 * "객체 복사", 이것이 바로 STL이 사는 법
 * vector,string,deque 등에 객체를 insert, erase 하면 객체들은 복사를 통해 밀려나고 밀려온다. 복사 비용이 큰 객체라면..?
-* nect_permutation, previous_permutation, remove, unique 등의 정렬 알고리즘이나 rotate, reserve 같은 것들을 호출하면 컨테이너의 객체들이 이동한다.
+* next_permutation, previous_permutation, remove, unique 등의 정렬 알고리즘이나 rotate, reverse 같은 것들을 호출하면 컨테이너의 객체들이 이동한다.
 * 원리는 객체의 복사용 멤버 함수를 사용하며 복사 생성자와 복사 대입 연산자가 사용된다. (정의하지 않으면 컴파일러가 자동 생성)
 
 * STL에서 복사는 거의 모든 순간에 일어난다.
