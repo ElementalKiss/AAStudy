@@ -17,16 +17,16 @@
 
 # VS2015 STL list의 size
 ```
-	size_type& _Mysize() _NOEXCEPT
-		{	// return reference to _Mysize
-		return (_Get_data()._Mysize);
-		}
+    size_type& _Mysize() _NOEXCEPT
+        {   // return reference to _Mysize
+        return (_Get_data()._Mysize);
+        }
 
-	...
+    ...
 
-	size_type size() const _NOEXCEPT
-		{	// return length of sequence
-		return (this->_Mysize());
-		}
+    size_type size() const _NOEXCEPT
+        {   // return length of sequence
+        return (this->_Mysize());
+        }
 ```
 
