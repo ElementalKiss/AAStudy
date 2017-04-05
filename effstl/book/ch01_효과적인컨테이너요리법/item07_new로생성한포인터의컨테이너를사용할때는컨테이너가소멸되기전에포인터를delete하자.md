@@ -28,6 +28,41 @@ void doSomthing()
 
 # 해결1: 간단한 해결
 
+```
+void doSomthingDelete()
+{
+    std::vector<Widget*> vwp;
+ 
+    for (int i = 0; i < 10; i++) {
+        vwp.push_back(new Widget);
+    }
+ 
+    // use vwp
+ 
+    for (auto i : vwp) {
+        delete i;
+    }
+}
+```
+
+* 해결은 되었지만 예외 안전성에 취약하다.
+* vwp에 포인터가 들어 있는데 delete가 수행되기 전에 예외가 발생하면 누수.
+
 # 해결2: 함수객체를 이용한 방법
 
 # 해결3: 스마트 포인터
+
+```
+void doSomthingSharedPTR()
+{
+    typedef std::shared_ptr<Widget> SPW;
+ 
+    std::vector<SPW> vwp;
+    for(SPW ptr : vwp)
+    {
+        vwp.push_back(SPW(new Widget));
+    }
+ 
+    // use
+}
+```
