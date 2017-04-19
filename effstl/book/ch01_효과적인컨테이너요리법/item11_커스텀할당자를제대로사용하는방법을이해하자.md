@@ -34,6 +34,7 @@ public:
 	}
 }
 ```
+- localityHint 는 c++17부터 deprecated 되었다고 합니다
 
 ## 이렇게 만든 SharedMemoryAllocator의 사용하기
 
