@@ -8,7 +8,7 @@
 * 공유메모리를 사용하기 힘들다.
 * 이런 고민을 했다면 커스텀 할당자를(custom allocator) 생각해야된다.
 
-# 예제 1.
+# 예제 1. 공유 메모리 활용
 
 ## malloc과 free 함수를 본떠서 만든 루틴
 
@@ -70,6 +70,51 @@ freeShared(pVectorMemory); // 공유 메모리에 있는 처음 메모리 단위
 * 만든 벡터를 사용 후 소멸자 호출.
 * 벡터가 점유하고 있던 메모리를 해제.
 
-# 예제 2.
+# 예제 2. 특수 heap 메모리 활용
 
-cont.
+## Heap 클래스
+
+```
+class Heap1 {
+public:
+    static void* alloc(size_t numBytes, const void* memoryBlockToBeNear);
+    static void dealloc(void* ptr);
+};
+
+class Heap2 {}; // 같은 인터페이스
+```
+
+* 메모리 할당과 해제용으로 정적 멤버 함수가 들어 있다.
+
+## Heap1과 Heap2 등의 클래스를 사용하도록 설계 된 할당자 생성한다
+
+```
+template<typename T, typename Heap>
+SpecialHeapAllocator{
+public:
+    pointer allocate(size_t numObjects, const void* localityHint = 0)
+	{
+	    return static_cast<pointer>(Heap::alloc(numObjects* size_t(T), localityHint));
+	}
+
+    void deallocate(pointer ptrToMemory, size_type numObjects)
+	{
+	    Heap::dealloc(ptrToMemory);
+	}
+}
+```
+
+## SpecialHeapAllocator 사용하기
+
+```
+// v와 s의 요소는 Heap1에 모두 모아 놓는다.
+vector<int, SpecialHeapAllocator<int, Heap1>> v;
+set<int, SpecialHeapAllocator<int, Heap1>> s;
+
+// L과 m의 요소는 Heap2에 모두 모아 놓는다.
+list<Widget, SpecialHeapAllocator<Widget, Heap2>> L;
+map<int, string, less<int>, SpecialHeapAllocator<pair<const int, string>, Heap2>> m;
+```
+
+* 중요한 점은 Heap1과 Heap2는 객체가 아니라 type이다.
+* 같은 타입의 할당자는 모두 동등해야 한다의 제약만 잘 지키면 된다.
