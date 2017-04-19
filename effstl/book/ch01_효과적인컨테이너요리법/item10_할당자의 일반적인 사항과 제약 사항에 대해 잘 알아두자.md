@@ -51,7 +51,7 @@ pointer allocator<T>::allocate(size_type numObjects);
 |  allocator | 객체 수 | T*(pointer라는 typedef 타입)|
 - allocate에서 반환되는 포인터는 T 객체를 가리키지 않는다. 만들어지지도 않았기 때문..
 - 실제 T 객체를 메모리에 만드는 쪽은 allocate의 호출자(caller)로 정해져있다.
-- - operator new를 만들어 썼을 때의 노하우를 커스텀 할당자에 적용하기가 복잡하다.
+- operator new를 만들어 썼을 때의 노하우를 커스텀 할당자에 적용하기가 복잡하다.
 
 ## 대부분의 표준 컨테이너는 자신이 생성될 때 같이 붙어온 할당자를 한 번도 호출하지 않습니다.
 ```
