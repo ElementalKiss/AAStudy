@@ -7,7 +7,8 @@
 * elki
 * ralf
 * pjel
-* reds (new member! since 20170406)
+* reds (old member! since 20170406! tekken king user!!!)
+* zero (new member! since 20170512)
 
 # Goal
 
@@ -31,19 +32,19 @@ https://www.visualstudio.com/ko/downloads/
 
 # Study
 
-## 책 정리
+## Book
 
 * 정리자 - 두 사람이 두 챕터를 정리.
-* 리뷰어 - 남은 두 명이 각각 한 챕터를 리뷰.
+* 리뷰어 - 남은 세 명이 각각 두 챕터를 리뷰.
 * More Study - 리뷰어는 해당 요일에 스터디간 이슈가 된 키워드에 대해 조사합니다.
 
-## 코드
+## Code
 
 * 허허 정말 회사 다니면서 코드 짜기는 힘드네요.
 * 각 챕터마다 자신의 코드를 작성하고 커밋.
 * 자유로운 리뷰.
 
-## 발표
+## PT
 
 * 각 챕터의 정리자가 github를 보며 설명.
 * 자유로운 까기.
