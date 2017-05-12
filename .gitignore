@@ -191,6 +191,8 @@ _Pvt_Extensions
 .paket/paket.exe
 # FAKE - F# Make
 .fake/
+*.swp
+.DS_Store
 
 
 출처: http://hmjo.tistory.com/397 [오이데 오이데 ~~]
