@@ -32,6 +32,20 @@ private:
 	int val;
 };
 
+void CheckMemory(Test& rhs)
+{
+	std::cout <<  "체크 메모리 " << reinterpret_cast<void*>(&rhs) << std::endl;
+
+	try
+	{
+		std::cout <<  " 저장된 값은 ? [" << rhs.Get() << "]" << std::endl;
+	}
+	catch (...)
+	{
+		std::cout <<  "메모리 참조 에러" << std::endl;
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	std::vector<Test> test;
@@ -52,25 +66,35 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		test.pop_back();
 	}
-
-	std::vector<Test>::iterator it = test.begin();
 	
-	std::cout <<  reinterpret_cast<void*>(&(*it)) << " iter 메모리" << std::endl;
+	std::vector<Test>::pointer ref = &(*test.begin());
+	std::cout << "1 메모리 시작 얻어옴" << std::endl;
+	CheckMemory(*ref);
 
-	// 과연 살아 있을까?
-	const Test& temp2 = (*it);
-
-	std::cout <<  reinterpret_cast<const void*>((&temp2)) << " ref 메모리" << std::endl;
-
-	std::cout <<  " 스왑 시작 !! " << std::endl;
+	std::cout <<  "1 스왑 시작 !! " << std::endl;
 	std::vector<Test>(test).swap(test);
-	std::cout <<  " 스왑 끝 !! " << std::endl;
+	std::cout <<  "1 스왑 끝 !! " << std::endl;
 
 	// 과연 유효 할까?
-	//std::cout <<  reinterpret_cast<void*>(&(*it)) << "iter 스왑후 메모리" << std::endl;
+	std::cout << "1 메모리 시작 확인" << std::endl;
+	CheckMemory(*ref);
 
-	//std::cout << (*it).Get() << std::endl;
+	// 다시 얻어옴
+	ref = &(*test.begin());
 	
+	std::cout << "2 메모리 시작 얻어옴" << std::endl;
+	CheckMemory(*ref);
+
+	std::cout <<  "2 스왑 시작 !! " << std::endl;
+	std::vector<Test> test2;
+	std::swap(test2 , test);
+	std::cout <<  "2 스왑 끝 !! " << std::endl;
+	
+	std::cout << "2 메모리 시작 확인" << std::endl;
+	CheckMemory(*ref);
+
+	std::cout << " 다끝남... " << std::endl;
+
 	return 0;
 }
 
