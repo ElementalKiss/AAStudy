@@ -49,4 +49,14 @@ auto autoPb = &boolContainer[0];
 // std::_Vb_iter_base<std::_Wrap_alloc<std::allocator<unsigned int> > >	{_Myptr=0x00000000 {???} _Myoff=0 }	std::_Vb_iter_base<std::_Wrap_alloc<std::allocator<unsigned int> > >
 ```
 
-CONT.
+* 어쨋든 위의 사항을 만족하지 못하므로 STL 컨테이너라고 할 수 없지만 표준안에는 속해 있다. 거의(almost) 만족하기 때문에!
+* 템플릿 설계 시 꺼낸 컨테이너 요소의 주소가 내부 객체 타입의 포인터여야 정상 동작하는 템플릿이라면 '거의' 만족 하는 것은 치명적이다.
+
+# 그러면 vector\<bool>과 같은 컨테이너가 필요하다면 어떻게?
+
+* deque\<bool>: 진짜 bool을 저장할 수 있는 STL 컨테이너.
+* bitset: STL 컨테이너는 아니지만 표준 C++ 라이브러리에 속한다. STL 컨테이너와 달리 요소의 개수가 컴파일 타임에 고정, 요소 삽입과 삭제 불가능, 반복자 없음. 그러나 비트 조작 자체는 편리.
+
+# 잡소리
+
+* C++ 표준화 위원회에서 프록시(Proxy) 객체 기반의 컨테이너 구성의 시험대가 vector\<bool>이었다.
