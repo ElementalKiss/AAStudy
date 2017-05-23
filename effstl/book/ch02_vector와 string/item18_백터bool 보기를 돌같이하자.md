@@ -31,7 +31,7 @@ bool* pb = &boolContainer[0];
 
 * 가짜 bool은 bool에 대한 포인터를 만들 수 없다.
 * 비트 필드의 각 비트에 대한 참조자를 만들 수 없다.
-* 그렇기 때문에 operator는 보통 프록시 객체(proxy object)를 반환하도록 구현되어 있다.
+* 그렇기 때문에 operator는 보통 [프록시 객체(proxy object)](https://github.com/ElementalKiss/AAStudy/blob/master/effstl/code/redshore/ProxyClass.md)를 반환하도록 구현되어 있다.
 
 ```
 template<typename Allocator>
