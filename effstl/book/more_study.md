@@ -65,3 +65,17 @@ funcD( 2.0f, 10, true );
 auto funcF = std::bind(&ClassA::Func, this, std::placeholders::_1, std::placeholders::_2)
 
 ```
+
+# string.c_str() 은 버퍼를 복사하여 리턴하는가?
+
+## 실험 결과는 버퍼가 복사되고 기존 포인터를 그대로 리턴한다.
+```
+string str("test");
+
+const char* temp1 = str.c_str();
+const char* temp2 = str.c_str();
+const char* temp3 = str.c_str();
+```
+
+* str.c_str() // _Buf 와 temp1,2,3 모두 같은 포인터(주소)를 가리킨다.
+* 라이브러리마다 다를 수 있겠지만, 우선 실험 결과는 X
