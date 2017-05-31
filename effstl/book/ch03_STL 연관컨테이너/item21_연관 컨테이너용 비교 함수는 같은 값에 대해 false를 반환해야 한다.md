@@ -1,7 +1,7 @@
 # 항목 21: 연관 컨테이너용 비교 함수는 같은 값에 대해 false를 반환해야 한다
 
 # less_equal를 썼을 때 발생하는 악몽
-```
+```cpp
 set<int, less_equal<int>> s;
 s.insert(10);
 s.insert(10);
