@@ -99,4 +99,24 @@ set<string, StringPtrLess> ssp; // Function "StringPtrLess" is not a type name
 * set 템플릿에 들어가는 세 개의 매개 변수는 타입(type)이어야 한다.
 * 내부적으로 인스턴스화하여 함수를 만들 수 있는 타입을 원한다.
 
+### 포인터의 연관 컨테이너를 만드는 일과 컨테이너의 비교 타입을 지정하는 일은 실과 바늘의 관계라고 생각하자!
+* 대부분  이 때 만들게 되는 비교 타입은 포인터를 역참조한 후에, 그 포인터가 가리키는 객체를 비교하게 될 것이다.(앞의 StringPtrLess 처럼)
+* 이런 코드 작성이 많을 경우 비교 함수자의 템플릿을 하나 준비해 두자.
+```cpp
+// 매개 변수는 값으로 전달되며, 값 자체를 포인터로 간주
+struct DereferenceLess {
+    template<typename PtrType>
+    bool operator() (PtrType pT1, PtrType pT2) const
+    {
+        return *pT1 < *pT2;
+    }
+};
 
+set<string*, DereferenceLess> ssp;  //StringPtrLess 대신 사용할 수 있다.
+```
+
+### 한가지 더!
+* 이번 항목은 포인터를 담는 연관 컨테이너에 관한 이야기이지만, 연관 컨테이너에 담는 객체가 포인터처럼 동작하는 객체인 경우에도 마찬가지이다.
+* 이를테면 스마트 포인터나 반복자를 가리키는 경우
+* DereferenceLess 는 물론, 이번 항목에서 이야기한 해결책은 모두 적용할 수 있다.
+* T*의 연관 컨테이너에 대한 비교 타입으로 만들어 본 이 템플릿은 T 객체에 대한 반복자나 스마트 포인터를 담는 연관 컨테이너의 비교 타입으로도 적합하다.
