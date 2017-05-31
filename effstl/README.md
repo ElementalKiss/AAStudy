@@ -35,7 +35,7 @@ https://www.visualstudio.com/ko/downloads/
 ## Book
 
 * 정리자 - 두 사람이 두 챕터를 정리.
-    - pjel -> RedS -> zero -> elki -> ralf -> pjel 순서
+    - pjel -> reds -> zero -> elki -> ralf -> pjel 순서
 * 리뷰어 - 남은 세 명이 각각 두 챕터를 리뷰.
 * More Study - 리뷰어는 해당 요일에 스터디간 이슈가 된 키워드에 대해 조사합니다.
 
