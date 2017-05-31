@@ -1,4 +1,4 @@
-# 항목 21: 0연관 컨테이너용 비교 함수는 같은 값에 대해 false를 반환해야 한다
+# 항목 21: 연관 컨테이너용 비교 함수는 같은 값에 대해 false를 반환해야 한다
 
 # less_equal를 썼을 때 발생하는 악몽
 ```
@@ -9,7 +9,7 @@ s.insert(10);
 * less_equal 사용 시 비교 함수는 <= 가 사용되어 결과는 false 출력
 
 # string 비교 함수의 악몽
-```
+```cpp
 struct StringPtrGreater :
     public binary_function<const string*, const string*, bool> {
     bool operator()(const string *ps1, const string *ps2)
@@ -19,7 +19,7 @@ struct StringPtrGreater :
 }
 ```
 * 위와 같이 작성하게 되면 <의 부정은 아쉽게도 >이 아닌 >=로 잘못된 결과가 초래됨
-```
+```cpp
 struct StringPtrGreater :
     public binary_function<const string*, const string*, bool> {
     bool operator()(const string *ps1, const string *ps2)
@@ -31,7 +31,7 @@ struct StringPtrGreater :
 * 위와 같이 작성하여야 문제가 없음
 
 # multiset의 악몽
-```
+```cpp
 multiset(int, less_equal<int>> s;
 s.insert(10);
 s.insert(10);
