@@ -18,16 +18,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	TestObjectSupportBySetContainer::iterator itor = test.find(3);
 	
-	// 안바뀌어요
+	// 않바뀌어요
 	static_cast<TestObjectSupportBySet>(*itor).SetKey(5);
 	((TestObjectSupportBySet)(*itor)).SetKey(6);
 	TestObjectSupportBySet test2(*itor); test2.SetKey(7);
 
-	// key 값을 바꿀 수있음
+	// key값을 변경 할 수 있음
 	const_cast<TestObjectSupportBySet&>(*itor).SetKey(1); // 기존key 3이.. 1로
 	const_cast<TestObjectSupportBySet&>(*itor).SetValue(3);
 	
-	// 이것의 헬의 시작..
+	// 이것이 헬의 시작..
 	test.insert(3);
 }
 
