@@ -1,5 +1,7 @@
 #pragma once
 #include "stdarg.h"
+#include <set>
+
 
 void WriteString(const char *format, ...);
 
@@ -8,7 +10,7 @@ class TestObject
 public:
 	TestObject():val(0)
 	{
-		WriteString("생성자 호출");
+		WriteString("생성자 호출 %x" , this );
 	}
 
 	TestObject(int lhs) : val(lhs)
@@ -65,6 +67,32 @@ public:
 private:
 	int val;
 };
+
+class TestObjectSupportBySet :public TestObject
+{
+public:
+	TestObjectSupportBySet(int value2) : val2(value2), value(0) { WriteString("생성자 호출 v2 %x" , this ); }
+
+	void SetKey(int val) { this->val2 = val; WriteString("v2 setv2 체크 메모리 %x", reinterpret_cast<void*>(this) );  }
+	int GetV2() const { return val2; } 
+
+	void SetValue(int val) { this->value = val; WriteString("v2 set 체크 메모리 %x", reinterpret_cast<void*>(this) ); }
+	int GetValue() { return value; } 
+
+private:
+	int val2;
+	int value;
+};
+
+struct TestObjectSupportBySetLess : 
+	public std::binary_function<TestObjectSupportBySet,TestObjectSupportBySet, bool>{
+		bool operator() (const TestObjectSupportBySet& lhs, const TestObjectSupportBySet& rhs) const {
+			WriteString("비교 연산 v2 less ");
+			return lhs.GetV2() < rhs.GetV2();
+		}
+	}; 
+	
+typedef std::set<TestObjectSupportBySet, TestObjectSupportBySetLess> TestObjectSupportBySetContainer;
 
 void CheckMemory(TestObject& rhs)
 {
