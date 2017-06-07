@@ -84,6 +84,7 @@ private:
 	int value;
 };
 
+// less¿« ¡§¿««ÿ¡‹
 struct TestObjectSupportBySetLess : 
 	public std::binary_function<TestObjectSupportBySet,TestObjectSupportBySet, bool>{
 		bool operator() (const TestObjectSupportBySet& lhs, const TestObjectSupportBySet& rhs) const {

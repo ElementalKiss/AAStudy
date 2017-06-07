@@ -26,6 +26,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	// key 값을 바꿀 수있음
 	const_cast<TestObjectSupportBySet&>(*itor).SetKey(1); // 기존key 3이.. 1로
 	const_cast<TestObjectSupportBySet&>(*itor).SetValue(3);
+	
+	// 이것의 헬의 시작..
 	test.insert(3);
 }
 
