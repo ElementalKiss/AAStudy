@@ -79,3 +79,42 @@ const char* temp3 = str.c_str();
 
 * str.c_str() // _Buf 와 temp1,2,3 모두 같은 포인터(주소)를 가리킨다.
 * 라이브러리마다 다를 수 있겠지만, 우선 실험 결과는 X
+
+# transform 알고리즘을  사용해보자 
+
+* 항목 20에서 transform 알고리즘이 컴파일되지 않았던 이유는 string의 << 연산자(operator)가 오버로딩되지 않았기 때문이다. (필자가 사용하는 라이브러리는 되어있었나 봄)
+* 컴파일 에러 메세지: 
+error C2679: binary '<<': no operator found which takes a right-hand operand of type 'const std::string' (or there is no acceptable conversion)
+
+```cpp
+set<MyString*> ssp;
+transform(ssp.begin(), ssp.end(),
+    ostream_iterator<MyString>(cout, "\n"),
+    Dereference());
+```
+* MyString 을 연산자 오버로딩 하면 잘 된다.
+
+```cpp
+set<MyString*> ssp;
+for (set<string*>::const_iterator i = ssp.begin(); i != ssp.end(); ++i) {
+    cout << *(*i) << endl;
+}
+```
+* 위의 코드도 연산자 오버로딩을 하면 잘 된다.(안하면 위와 같은 에러메세지)
+
+# << 연산자 오버로딩
+```cpp
+class MyString
+{
+public:
+    friend ostream& operator<<(ostream& os, const MyString& rhs);
+private:
+    char* m_str;
+}
+
+friend ostream& operator<<(ostream& os, const MyString& rhs)
+{
+    os << rhs.m_str;
+    return os;
+}
+```
