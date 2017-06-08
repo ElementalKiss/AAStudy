@@ -1,9 +1,9 @@
-# 항목 22: set과 multiset에 저장된 데이터 요서에 대해 키(key)를 바꾸는 일은 피하자
+# 항목 22: set과 multiset에 저장된 데이터 요소에 대해 키(key)를 바꾸는 일은 피하자
 
 # map / multimap 은 key 변경이 불가능 하다 K가 T const(key), V가 T
 # set / multiset 은 key 의 변경이 가능하다 k가 T (key자 value)
 
-## set의 값이 병경 가능한 상태 이지만 stl에따라 iterator가 const로 가져오기도 함  
+## set의 값이 변경 가능한 상태 이지만 stl에따라 iterator가 const로 가져오기도 함  
 * (2010)에서는 const 형으로(자료 변경이 거부됨)
 
 ## 그러나 이를 회피 할수 있음 const_cast를 이용하여 상수 성질을 날려버릴 수있음
