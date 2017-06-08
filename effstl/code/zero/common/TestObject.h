@@ -32,10 +32,20 @@ public:
 
 	bool operator() (const TestObject& lhs, const TestObject& rhs)
     {
+		WriteString("간접 지정 연산자 %x , %x", (&lhs), (&rhs));
+
         if(lhs.val < rhs.val)  return true;
         if(lhs.val > rhs.val)  return false;
         return (lhs.val < rhs.val);
     }
+
+	TestObject& operator[] (int idx)
+	{
+		return *this;
+	}
+	//( ) [ ] -> *
+	//	함수, 배열, 구조체, 포인터
+
 
 	bool operator == (const TestObject& rhs)
 	{
@@ -47,7 +57,9 @@ public:
 	{
 		bool result = (this->val < rhs.val);
 
-		WriteString("비교 연산 <  [%d < %d]" ,this->val, rhs.val);
+		static std::string result_text[] = {"false","true"};
+
+		WriteString("비교 연산 <  [%d < %d] result [%s]" ,this->val, rhs.val, result_text[result].c_str());
 		
 		return result;
 	}
@@ -88,8 +100,14 @@ private:
 struct TestObjectSupportBySetLess : 
 	public std::binary_function<TestObjectSupportBySet,TestObjectSupportBySet, bool>{
 		bool operator() (const TestObjectSupportBySet& lhs, const TestObjectSupportBySet& rhs) const {
-			WriteString("비교 연산 v2 less ");
-			return lhs.GetV2() < rhs.GetV2();
+			
+			static std::string result_text[] = {"false","true"};
+
+			bool result = (lhs.GetV2() < rhs.GetV2());
+
+			WriteString("binary_function [%d < %d] result [%s]", lhs.GetV2(), rhs.GetV2(), result_text[result].c_str());
+
+			return result;
 		}
 	}; 
 	
