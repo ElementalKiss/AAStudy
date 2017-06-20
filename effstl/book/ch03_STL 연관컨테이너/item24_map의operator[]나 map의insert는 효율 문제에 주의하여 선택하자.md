@@ -94,7 +94,7 @@ typename MapType::iterator EfficientAddOrUpdate(MapType& m, const KeyArgType& k,
 		}
 ```
 
-* Move와 Emplace를 상요하고 있다.
+* Move와 Emplace를 사용하고 있다. 기본 생성자 호출해도 바로 Move로 때려박아서 리턴하는 듯.
 * EfficientAddOrUpdate 함수와 비교를 해도 결국 operator[] 보다 못한 성능인 것 같은 느낌이 아주아주 많이 든다.
 * 결국 operator[]가 개짱짱맨이 아닐까 생각한다. 같이 논의해봅시다.
 
