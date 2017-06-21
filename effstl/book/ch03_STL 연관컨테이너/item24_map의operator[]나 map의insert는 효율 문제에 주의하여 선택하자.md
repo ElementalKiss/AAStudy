@@ -35,7 +35,7 @@ mW[1] = 1.50f;
 # Map에 값을 넣으며 초기화하기
 
 ```c++
-mW[1] = 1.50f;
+mW[2] = 2.50f;
 ```
 
 * 위와 같은 코드를 풀어 쓰면 이렇게 된다고 할 수 있다.
@@ -45,6 +45,7 @@ auto result = mW.insert(MyWidgetMap::value_type(2, Widget()));
 result.first->second = 2.50f;
 ```
 
+* (참고) insert의 return 값에 대하여<sup>[[1]](#insertReturn)</sup>
 * 한 마디로 Widget의 기본 생성자를 호출하여 만들고 이것을 대입하는 형태가 된다.
 * Widget 객체를 원하는 값을 생성자 매개 변수에 넣어 바로 만들어 내는 것이 효율적이다.
 
@@ -80,6 +81,9 @@ typename MapType::iterator EfficientAddOrUpdate(MapType& m, const KeyArgType& k,
     }
 }
 ```
+
+* (참고) MapType::key_comp()에 대하여<sup>[[2]](#keyComp)</sup>
+* `!(m.key_comp()(k, lb->first))`는 "k가 맵 안에 하나 이상 존재한다"와 같은 뜻
 
 
 
@@ -224,3 +228,6 @@ int main(int argc, const char* argv[])
 }
 ```
 
+<a name="insertReturn">[1]</a>: map::insert는 `pair`를 반환. `first`는 iterator, `second`는 있는지없는지 여부(`bool`)
+
+<a name="keyComp">[2]</a>: `map::key_comp`는 맵의 비교객체를 반환한다. 기본값이 `less`인 그것!
