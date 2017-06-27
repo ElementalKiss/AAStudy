@@ -1,6 +1,6 @@
 # 항목 27 : const_iterator를 iterator로 바꾸는 데에는 distance와 advance를 사용하자
 
-# 단순히 캐스팅을 해보면 어떻게 되는지 보자
+# 단순히 캐스팅을 하면 어떻게 되는지 보자
 
 ```c++
 typedef deque<int> IntDeque;
@@ -22,7 +22,7 @@ Iter i2(const_cast<iter>(ci));  // 에러가 난다...
 - `vector`, `string`은 컴파일이 된다. 왜냐하면 이 둘은 반복자가 포인터를 기반으로 구현되어있기 때문.
   + `vector<T>::iterator`는 `T*`와 같고,
   + `vector<T>::const_iterator`는 `const T*`와 같다.
-  + 심지어 이 둘이 단순 포인터로 동작할 때는 release모드일 때 뿐이고, debug모드에서는 클래스가 된다.
+  + 하지만 이 둘이 단순 포인터로 동작할 때는 release모드일 때 뿐이고, debug모드에서는 클래스가 된다.
 
 - 결론적으로 어떤 컨테이너든 간에 `iterator`를 `const_iterator`로 바꾸는 일은 항상 좋지 못하다!
 
@@ -59,7 +59,7 @@ template<typename InputIterator>
 distance(InputIterator first, InputIterator last);
 ```
 
-- 이전의 `advance(i, distance(i, ci))`를 보면 `distance`함수에 `i`와 `ci`가 같이 넘겨졌다. 하지만, `distance`의 parameter는 둘이 같은 타입을 받는다.
+- 이전의 `advance(i, distance(i, ci))`를 보면 `distance`함수에 `i`와 `ci`가 같이 넘겨졌다. 하지만, `distance` 함수는 같은 타입의 parameter를 받는다.
 
 - 따라서 컴파일러가 `InputIterator`의 타입을 결정할 수 없어서 오류를 낸다.
 
