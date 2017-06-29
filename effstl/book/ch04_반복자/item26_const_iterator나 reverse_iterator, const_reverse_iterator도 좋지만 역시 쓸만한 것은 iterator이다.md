@@ -15,13 +15,32 @@
 * iterator erase(iterator position);
 * iterator insert(iterator rangeBegin, iterator rangeEnd);
 
-
 # iterator의 상호 변환 관계
+* 첨부된 이미지 참고
+* 이미지 중 화살표만 그려진 관게는 컴파일러의 추론에 의해서 바로 변환이 가능
+* 하지만 화살표에 함수 이름이 쓰여진 관계는 별도의 함수를 통해서만 변환 가능
 
+# 상수 반복자와 역방향 반복자보다 비상수 반복자 타입인 iterator를 쓰는 것이 좋은 이유
+* 어떤 형태의 insert, erase 멤버 함수는 무조건 iterator만을 넘겨야 함.
+* const_iterator를 iterator로 암물적으로 변환하는 방법은 없으며 방법이 있긴 하나 일반성도 떨어지며 효율에 대한 보장 불가
+* reverse_iterator를 iterator로 변환할 수 있으나 변환한 후 약간의 조정이 필요.
 
-         ---> const_iterator <--- (base) 
-iterator --->                           const_revers_iterator
-         <--- (base) revers_iterator ---->
+# 신기한 iterator와 const_iterator의 관계
+```
+typedef deque<int> IntDeque;
+typedef IntDeque::iterator iter;
+typedef IntDeque::const_iterator ConstIter;
 
-# 화살표에 관계는 컴파일러 추론에 의한 변환이 가능 하다는 뜻
+iter I;
+ConstIter ci;
 
+if (i == ci) ....
+```
+
+* 비상수 반복자와 상수 반복자 비교시 재수 없는 경우 컴파일이 되지 않을 수 있음
+* 이유는 const_itertator에 대해 operator==를 멤버 함수로 선언해두었기 때문(비멤버 함수로 선언하여 두개의 매개 변수를 받게 하면 해결)
+* 급하다면 피연산자의 순서를 바꾸면 해결됨. (if ci == i)
+* 위 문제는 반복자를 이용하는 뺄셈에서도 발생!
+  if (i-ci >= 3)은 불가 if (ci+3 <=i)는 가능
+
+# 결론은 iterator를 사랑합시다!
