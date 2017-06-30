@@ -6,7 +6,7 @@
 * reverse_iterator
 * const_reverse_iterator
 
-![alt text](https://github.com/ElementalKiss/AAStudy/blob/master/effstl/book/ch04_%EB%B0%98%EB%B3%B5%EC%9E%90/item26.png "iterator relationship")
+![alt text](https://github.com/ElementalKiss/AAStudy/blob/master/effstl/book/image/item26.png "iterator relationship")
 
 # container<T>라는 컨테이너가 있다면 iterator는 T*와 같은 개념으로 const_iterator는 const T*와 같은 개념
 
