@@ -2,7 +2,7 @@
 
 ## 상황 : 어떤 텍스트 파일을 읽어 string 객체에 복사
 
-* STL적 생각이라음 다음과 같은 코드가 나온다.
+* STL적인 생각이라면 다음과 같은 코드가 나온다.
 
 ```c++
     ifstream inputFile("input.txt");
