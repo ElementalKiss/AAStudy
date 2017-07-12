@@ -98,4 +98,4 @@ transform(values.begin(), values.end(), back_inserter(results), transmogrify)
 * back_inserter
 * front_inserter
 * inseter
-* ostream_iterator = 또 나옴! 찾아볼 것
+* [ostream_iterator](https://github.com/ElementalKiss/AAStudy/blob/master/effstl/book/more_study/ostream_iterator.md)
