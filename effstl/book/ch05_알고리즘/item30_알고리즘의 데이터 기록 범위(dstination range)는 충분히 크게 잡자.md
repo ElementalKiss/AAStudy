@@ -1,4 +1,4 @@
-# item30_알고리즘의 데이터 기록 범위(dstination range)는 충분히 크게 잡자
+# item30_알고리즘의 데이터 기록 범위(destination range)는 충분히 크게 잡자
 
 ## transform 함수 호출 시 세번 째 인자값의 객체가 비어있다면?
 ```
