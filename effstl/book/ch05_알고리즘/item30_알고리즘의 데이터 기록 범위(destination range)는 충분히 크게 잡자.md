@@ -17,7 +17,7 @@ vector<int> results;
 transform(values.begin(), values.end(), back_inserter(results), transmogrify)
 ```
 * back_inserter가 반환하는 반복자는 push_back을 호출하도록 되어 있음
-(이 함수를 쓰려면 컨테이너는 push_back을 지원해야함, 시퀀스 컨테이너들)
+  (이 함수를 쓰려면 컨테이너는 push_back을 지원해야함, 시퀀스 컨테이너들)
 
 ## back_inserter와 반대인 front_inserter
 ```
