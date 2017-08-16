@@ -23,6 +23,43 @@
 
 ## unique, unique_copy
 
+* 정렬되지 않아도 잘 동작하긴 한다.
 * 표준안 : 연속으로 이어진 동일한 요소들 중에서 첫 번째 것만을 남기고 다 없앤다.
-* 그래서 정렬해야한다.
+* unique의 동작상 중복되는 값을 지우기 위해서 remove와 비슷한 동작을 하게 된다. 그래서 미리 정렬한 데이터를 넣는 것이 효율적이다.
 
+## 비교 함수는 그 범위를 정렬할 때 사용한 기준에 맞게 동작해야 한다.
+
+```c++
+    vector<int> v;
+    v.push_back(5);
+    v.push_back(4);
+    v.push_back(3);
+    v.push_back(2);
+    v.push_back(1);
+
+    sort(v.begin(), v.end(), greater<int>());
+    /*
+    if sorted using greater
+        isExists5 = 0
+        isExists5UsingGreater = 1
+    else not sorted
+        isExists5 = 1
+        isExists5UsingGreater = 0
+    */
+
+    bool isExists5 = binary_search(v.begin(), v.end(), 5);
+    bool isExists5UsingGreater = binary_search(v.begin(), v.end(), 5, greater<int>());
+
+    cout << "isExists5 = " << isExists5 << endl;
+    cout << "isExists5UsingGreater = " << isExists5UsingGreater << endl;
+```
+
+* binary_search 수행 전에 컨테이너가 greater를 통해 sort 된 상태이다.
+* 기본 요소를 오름차순으로 검색하기 때문에 비정상적인 결과가 나올 수 있다.
+* binary_search 수행 시에 greater 비교함수를 명시해주면 정상동작 한다.
+
+
+## 정리
+
+* 11개의 알고리즘에 정렬된 범위를 넘겨야 효율이 좋다.
+* 알고리즘에 넘길 범위를 미리 정렬하고 그 정렬 원리에 맞게 동작하는 비교 함수를 작성해야한다.(명랑 STL 사회는 너무 오글거린다...)
