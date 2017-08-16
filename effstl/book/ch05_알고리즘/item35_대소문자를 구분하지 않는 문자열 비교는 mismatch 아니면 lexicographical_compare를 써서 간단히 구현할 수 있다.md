@@ -78,7 +78,7 @@ bool ciStringCompare2(const string& s1, const string& s2)
 * lexicographical_compare 는 쉽게 말해 strcmp를 일반화한 알고리즘으로 두 요소의 대소 관계를 정할 수 있는 기준을 만들어 넣을 수 있다.
 * s1과 s2가 어극나는 첫 번째 위치를 찾는다.
 * 두 문자열이 동일한 값을 가지면 false를 반환한다.
-*** (앞 요소와 뒷 요소를 번갈아 가면서 전달) ***
+* (앞 요소와 뒷 요소를 번갈아 가면서 전달)
 
 ## 결론(?)
 
