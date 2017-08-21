@@ -4,11 +4,12 @@
 
 # Member
 
-* elki
-* ralf
-* pjel
-* reds (old member! since 20170406! tekken king user!!!)
-* zero (new member! since 20170512)
+* elki (Bug Constructor.)
+* ralf (Quaternion Mater.)
+* pjel (Miri Miri Mirimi.)
+* reds (very old member! since 20170406. SNU super brain.) 
+* zero (old member! since 20170512. Hatsan!)
+* rodu (new member! since 20170821. Work!)
 
 # Goal
 
@@ -27,16 +28,16 @@ https://www.visualstudio.com/ko/downloads/
 
 * 목표 기간은 6개월
 * 한 번 모임에 2챕터씩
-* 매 주 목요일 PM 7:00
-* 한 시간에서 두 시간 사이
+* 매 주 목요일 PM 01:20
+* 40 min
 
 # Study
 
 ## Book
 
 * 정리자 - 두 사람이 두 챕터를 정리.
-    - pjel -> reds -> zero -> elki -> ralf -> pjel 순서
-* 리뷰어 - 남은 세 명이 각각 두 챕터를 리뷰.
+    - pjel -> reds -> zero -> elki -> ralf -> rodu -> pjel 순서
+* 리뷰어 - 남은 네 명이 각각 두 챕터를 리뷰.
 * More Study - 리뷰어는 해당 요일에 스터디간 이슈가 된 키워드에 대해 조사합니다.
 
 ## Code
