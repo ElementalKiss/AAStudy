@@ -62,9 +62,9 @@ Point avg = std::accumulate(Ip.begin(), Ip.end(), Point(0, 0), PointAverage());
 * for_each에 넘겨지는 함수는 부가적 효과를 가져도 문제 없음.
 ```
 struct Point {...};
-class PointAverage : public std::unary_function <Point, void> {
+class PointAverage2 : public std::unary_function <Point, void> {
 public:
-    PointAverage() : xSum(0), ySum(0), numPoints(0) {}
+    PointAverage2() : xSum(0), ySum(0), numPoints(0) {}
 
     void operator()(const Point& p)
     {
@@ -82,7 +82,7 @@ private:
     double ySum;
 };
 
-std::list<Point> Ip;
+std::list<Point> Ip2;
 ...
 Point avg = std::for_each(Ip2.begin(), Ip2.end(), PointAverage2()).result();
 ```
