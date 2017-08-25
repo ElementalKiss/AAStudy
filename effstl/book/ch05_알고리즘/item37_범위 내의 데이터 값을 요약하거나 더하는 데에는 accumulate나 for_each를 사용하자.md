@@ -59,7 +59,7 @@ Point avg = std::accumulate(Ip.begin(), Ip.end(), Point(0, 0), PointAverage());
 ## for_each
 * 범위와 그 범위내의 요소에 대해 호출할 함수(대체 함수 객체)를 받아들이는 형태
 * 알고리즘에 넘겨지는 함수는 자신이 처리 할 단 하나의 요소만을 받아 들이며, for_each는 자신의 수행을 마칠 때 해당 함수를 반환.
-* for_cah에 넘겨지는 함수는 부가적 효과를 가져도 문제 없음.
+* for_each에 넘겨지는 함수는 부가적 효과를 가져도 문제 없음.
 ```
 struct Point {...};
 class PointAverage : public std::unary_function <Point, void> {
