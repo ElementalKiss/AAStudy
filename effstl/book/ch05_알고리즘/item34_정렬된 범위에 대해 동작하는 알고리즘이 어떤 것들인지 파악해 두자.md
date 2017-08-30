@@ -30,6 +30,15 @@
 ## 비교 함수는 그 범위를 정렬할 때 사용한 기준에 맞게 동작해야 한다.
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <string>
+using namespace std;
+
+void main()
+{
     vector<int> v;
     v.push_back(5);
     v.push_back(4);
@@ -37,21 +46,55 @@
     v.push_back(2);
     v.push_back(1);
 
+    auto print = [](string name, bool result1, bool result2, bool result3) {
+        cout << name << " results" << endl;
+        cout << "isExists5 = " << result1 << endl;
+        cout << "isExists5UsingLess = " << result2 << endl;
+        cout << "isExists5UsingGreater = " << result3 << endl << endl;
+    };
+
+    // _STD sort(_First, _Last, less<>());
+    sort(v.begin(), v.end());
+    print(
+        "비교함수 공백, 미사용",
+        binary_search(v.begin(), v.end(), 5),
+        binary_search(v.begin(), v.end(), 5, less<int>()),
+        binary_search(v.begin(), v.end(), 5, greater<int>())
+        );
+    
+    sort(v.begin(), v.end(), less<int>());
+    print(
+        "less 사용",
+        binary_search(v.begin(), v.end(), 5),
+        binary_search(v.begin(), v.end(), 5, less<int>()),
+        binary_search(v.begin(), v.end(), 5, greater<int>())
+    );
+
     sort(v.begin(), v.end(), greater<int>());
+    print(
+        "greater 사용",
+        binary_search(v.begin(), v.end(), 5),
+        binary_search(v.begin(), v.end(), 5, less<int>()),
+        binary_search(v.begin(), v.end(), 5, greater<int>())
+    );
+
     /*
-    if sorted using greater
-        isExists5 = 0
-        isExists5UsingGreater = 1
-    else not sorted
-        isExists5 = 1
-        isExists5UsingGreater = 0
+    비교함수 공백, 미사용 results
+    isExists5 = 1
+    isExists5UsingLess = 1
+    isExists5UsingGreater = 0
+
+    less 사용 results
+    isExists5 = 1
+    isExists5UsingLess = 1
+    isExists5UsingGreater = 0
+
+    greater 사용 results
+    isExists5 = 0
+    isExists5UsingLess = 0
+    isExists5UsingGreater = 1
     */
-
-    bool isExists5 = binary_search(v.begin(), v.end(), 5);
-    bool isExists5UsingGreater = binary_search(v.begin(), v.end(), 5, greater<int>());
-
-    cout << "isExists5 = " << isExists5 << endl;
-    cout << "isExists5UsingGreater = " << isExists5UsingGreater << endl;
+}
 ```
 
 * binary_search 수행 전에 컨테이너가 greater를 통해 sort 된 상태이다.
