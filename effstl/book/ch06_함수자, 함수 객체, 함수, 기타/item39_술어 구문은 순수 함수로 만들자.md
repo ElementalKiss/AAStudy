@@ -10,6 +10,7 @@
 ## 주 내용
 stl에서 사용되는 algorithm 등에서 술어구문 함수를 요구 하는 경우에 stl의 구현에 따라 비정상 동작 하는 경우를 상정한 예시
 
+~~~
 // 
 class Test : std::unary_function<int, bool> {
 public:
@@ -44,6 +45,7 @@ inline _FwdIt remove_if(_FwdIt _First, _FwdIt _Last, _Pr _Pred)
     else
         return (_Rechecked(_First,_Remove_if(_Unchecked(_First), _Unchecked(_Last), _Pred)));
 }
+~~~
 
 ## 결론
 remove_if 의 구현에 따라 술어구문 클레스 작성에 유의하자
