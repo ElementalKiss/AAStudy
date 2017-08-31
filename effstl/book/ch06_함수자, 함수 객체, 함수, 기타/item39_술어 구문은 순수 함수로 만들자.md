@@ -7,6 +7,9 @@
 
 술어 구문 클래스 : operator()가 술어 구문인 함수자 클래스
 
+## 주 내용
+stl에서 사용되는 algorithm 등에서 술어구문 함수를 요구 하는 경우에 stl의 구현에 따라 비정상 동작 하는 경우를 상정한 예시
+
 // 
 class Test : std::unary_function<int, bool> {
 public:
@@ -26,7 +29,7 @@ FItor remove_if_my(FItor itor_begin, FItor itor_end, Pre p)
     itor_begin = find_if(itor_begin, itor_end, p);
     if (itor_begin == itor_end) return itor_begin;
     else {
-        FItor next = itor_begin; // 여기서 복사가 일어나 면서 내용이 초기 화 된다.
+        FItor next = itor_begin; // 여기서 복사가 일어나 면서 내용이 초기화 된다.
         return remove_copy_if(++next, itor_end, itor_begin, p);
     }
 }
