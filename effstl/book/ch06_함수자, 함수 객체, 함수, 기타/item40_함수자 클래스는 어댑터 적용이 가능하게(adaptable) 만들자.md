@@ -189,3 +189,18 @@ Width = 5 Height = 5
 계속하려면 아무 키나 누르십시오 . . .
 */
 ```
+
+## c++11에서는?
+
+* `ptr_fun`, `mem_fun`, `mem_fun_ref` 이런 친구들이 c++11에서는 표준에서 내려가고
+  곧 나올 c++17에서는 아예 삭제되어 컴파일 에러가 날 예정
+
+* 하지만 이는 전부 `std::function`으로 대체할 수 있다
+  - 인자를 받아서 무언가를 수행하는 것들을 전부 담을 수 있는 함수 자료형
+  - lambda, 함수포인터, 함수객체(함수자), 멤버함수 포인터, `bind` 표현식 등...
+
+```c++
+auto it = find_if(widgetPtrs.begin(), widgetPtrs.end(), not1(ptr_fun(isInteresting)));
+// 위 코드를 c++11이 좋아하는 코드로 바꾸면...
+auto it = find_if(widgetPtrs.begin(), widgetPtrs.end(), not1(std::function<bool(const Widget*)>(isInteresting)));
+```
