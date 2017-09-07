@@ -10,6 +10,7 @@
 * reds (very old member! since 20170406. SNU super brain.) 
 * zero (old member! since 20170512. Hatsan!)
 * rodu (new member! since 20170821. Work!)
+* yolo (new new member! since 20170907. Loan MASTER?)
 
 # Goal
 
@@ -36,7 +37,7 @@ https://www.visualstudio.com/ko/downloads/
 ## Book
 
 * 정리자 - 두 사람이 두 챕터를 정리.
-    - pjel -> reds -> zero -> elki -> ralf -> rodu -> pjel 순서
+    - pjel -> reds -> zero -> elki -> ralf -> rodu -> yolo -> pjel 순서
 * 리뷰어 - 남은 네 명이 각각 두 챕터를 리뷰.
 * More Study - 리뷰어는 해당 요일에 스터디간 이슈가 된 키워드에 대해 조사합니다.
 
