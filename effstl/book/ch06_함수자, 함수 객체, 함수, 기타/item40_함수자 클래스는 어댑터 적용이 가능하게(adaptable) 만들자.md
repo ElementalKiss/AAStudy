@@ -95,7 +95,8 @@ struct WidgetNameCompare : public binary_function<const Widget*, const Widget*, 
 
 ## **정리**
 
-* 함수자 클래스에 여러 개의 호출 형태를 넣는 것은 사파.
+* STL은 함수자 클래스는 operator() 함수를 하나 밖에 가질 수 없다고 가정. unary_function과 binary_function에 넘겨질 매개 변수와 반환값 타입도 한 가지.
+* 함수자 클래스에 여러 개의 호출 형태를 넣는 것은 사파. 하나의 구조체에 두 개의 operator() 함수를 넣는 것은 꿈도 꾸지 말라! 반쪽만 어댑터 적용이 가능한 함수자가 된다.
 * 어댑터 적용성을 고려하고 짜야 정파. 함수자 클래스 설계에 유의하기.
 
 ## 구현 예시
