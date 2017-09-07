@@ -4,7 +4,7 @@
 * Widget 클래스가 있다고 가정하자.
 * 이 객체는 무게와 최대 속도를 가지고 있다. (weight, maximum speed)
 
-```
+```cpp
 class Widget {
 public:
     ...
@@ -26,7 +26,7 @@ bool operator<(const Widget& lhs, const Widget& rhs){
 * 이런 상황에서 최대 속도(maxSpeed)로 정렬하고 싶어!
 
 * 방법 1. less<Widget>을 템플릿 한정화 시킨다.
-```
+```cpp
 template<>
 struct std::less<Widget>: public std::binary_function<Widget, Widget, bool> {
     bool operator()(const Widget& lhs, const Widget& rhs) const {
@@ -42,7 +42,7 @@ struct std::less<Widget>: public std::binary_function<Widget, Widget, bool> {
 
 ## 그러면?
 * 함수자 클래스를 만들면 돼.
-```
+```cpp
 struct MaxSpeedCompare: public binary_function<Widget, Widget, bool> {
     bool operator()(const Widget& lhs, const Widget& rhs) const {
         return lhs.maxSpeed() < rhs.maxSpeed();
@@ -63,7 +63,7 @@ multiset<Widget> widgets;
 ## 옆길로 새서...
 * std 내의 STL 컴포넌트를 수정하는 일은 금지되어 있으나,
 * 약간의 땜빵(tinkering)은 허용되는 예시
-```
+```cpp
 namespace std {
     template<typename T>
     struct less< boost::shared_ptr<T> > : public binary_function<boost::shared_ptr<T>, shared_ptr<T>, bool> {
