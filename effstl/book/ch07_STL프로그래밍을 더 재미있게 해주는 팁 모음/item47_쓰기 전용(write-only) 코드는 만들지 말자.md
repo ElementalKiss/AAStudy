@@ -24,6 +24,9 @@
     );
 ```
 
+* 마치 함수형 언어 Lisp이나 Shceme 같은 느낌의 괄호 난무 코드가 된다.
+* 마치 자신이 천재인마냥 erase-remove 합성 구문 + find를 써서 STL 프로그래밍 실력을 펼쳐도 협업하는 상황에선 최대한 삼가야 한다.
+
 ### 풀어쓴 코드
 
 ```cpp
@@ -33,6 +36,8 @@
     intVec.erase(remove_if(rangeBegin, intVec.end(),
         bind2nd(less<int>(), x)), intVec.end());
 ```
+
+* 쪼개서 이쁘게.
 
 ## 코드
 
