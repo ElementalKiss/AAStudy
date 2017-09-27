@@ -102,6 +102,5 @@ void NiftyEmailProgram::ShowEmailAddress(const string& nickname) const
 5. STL 알고리즘 내부가 잘 못 되었다고 언급하면?
     - 알고리즘과 함께 사용한 타입에 문제가 있다.
     - 즉, 잘못된 부류의 반복자를 넘겼다던가,
-6. 컴파일러가 너가 의도하는 바를 모르겠다고 언급하면?
+6. 컴파일러가 당신이 의도하는 바를 모르겠다고 언급하면?
     - #include 안한거
-
