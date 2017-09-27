@@ -12,7 +12,7 @@
 2. C의 경우 \<algorithm>은 \<string>을 #include 한다.
 3. C와 D의 경우, \<iostream>은 \<iterator>를 #include 한다.
 4. D의 경우, \<iostream>은 \<string>과 \<vector>를 #include 한다.
-5.* D와 E의 경우, \<string>은 \<algorithm>을 #include 한다.
+5. D와 E의 경우, \<string>은 \<algorithm>을 #include 한다.
 6. 모든 경우에서 \<set>은 \<functional>을 #include 한다.
 
 * 이식이 잘 안된다고 하여 컴파일러나 라이브러리를 탓하지 말자.

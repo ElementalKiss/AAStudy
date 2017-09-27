@@ -90,7 +90,7 @@ void NiftyEmailProgram::ShowEmailAddress(const string& nickname) const
 * 즉, 머리 속으로, 긴 템플릿을 짧은 기호 코드(니모닉)로 바꿔 읽을 줄 아는 공력을 키우자.
 
 ## 추가 팁
-1. 에러 메시지가 포인트 타입을 언급하였다면?
+1. 에러 메시지가 포인터 타입을 언급하였다면?
     - vector와 string의 경우, 반복자는 포인터다.
     - iterator를 가지고 실수 했을 경우
 2. back_insert_iterator, front_insert_iterator, insert_iterator 언급하였다면?
