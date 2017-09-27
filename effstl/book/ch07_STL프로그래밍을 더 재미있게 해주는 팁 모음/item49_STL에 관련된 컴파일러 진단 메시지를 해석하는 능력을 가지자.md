@@ -5,7 +5,7 @@
 string s(10)
 ```
 
-## Compile Error (VC++ 컴파일러러)
+## Compile Error (VC++ 컴파일러)
 ```cpp
 #1
 error C2664: `__thiscall std::basic_string<char,struct 
