@@ -4,25 +4,36 @@
 
 # Member
 
+* elki
+* ralf
+* pjel
+* reds
+* rodu
+* yolo
+
 # Goal
 
 * auto 잘 쓰기
+* lambda 잘 쓰기
 
 # Prepare
 
 ## VS2017 install
 
-* Effective STL book, pdf.
+* Effective Modern C++ book.
 * 링크에서 VS Community 2017을 받는다.
 
 https://www.visualstudio.com/ko/downloads/
 
 # Schedule
 
+* 매 주 목요일 PM 01:20 1층 카페
+* 회당 2개 아이템
+
 # Study
 
-## Book
+* 정리 순서
 
-## Code
+    elki -> ralf -> pjel -> reds -> rodu -> yolo -> elki 순서
 
-## PT
+* 나머지 사람은 리뷰 : 오탈자, 추가 내용
