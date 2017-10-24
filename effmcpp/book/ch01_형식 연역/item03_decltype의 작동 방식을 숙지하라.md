@@ -30,7 +30,7 @@
     * C++11
         ``` cpp
         template<typename Container, typename Index>
-        auto authAndAccess(Container& c, Index i) // 이 때 auto는 형식 연역과 관련 없음, 함수의 반환 형식을 매개 변수 목록 다음에 선언하겠다는 뜻
+        auto authAndAccess(Container& c, Index i) // 이 때 auto는 타입 추론과 관련 없음, 함수의 반환 형식을 매개 변수 목록 다음에 선언하겠다는 뜻
         -> decltype(c[i]) // 반환 형식에 매개변수 이용 가능
         {
             authenticateUser();
@@ -43,7 +43,7 @@
         auto authAndAccess(Container& c, Index i)
         {
             authenticateUser();
-            return c[i]; // 반환 형식은 c[i]로부터 연역됨
+            return c[i]; // 반환 형식은 c[i]로부터 추론됨
         }
         ```
 * 템플릿 타입 추론과정에서 초기화 표현식의 참조성이 무시되는 것의 영향을 받는 경우
@@ -59,7 +59,7 @@
 * 위 문제를 해결하여 함수의 반환값이 실제 반환값과 동일하게 변경하려면 decltype(auto)를 사용하면 해결됨
     ``` cpp
     template<typename Container, typename Index> // C++14
-    decltype(auto) // auto는 해당 형식이 연역되어야 함을 뜻하며, decltype은 연역 과정에서 decltype 타입 추론 규칙들이 적용 되어야함을 뜻함
+    decltype(auto) // auto는 해당 형식이 추론되어야 함을 뜻하며, decltype은 타입 추론 과정에서 decltype 타입 추론 규칙들이 적용 되어야함을 뜻함
     authAndAccess(Container& c, Index i)
     { 
         authenticateUser();
@@ -124,3 +124,7 @@
 * decltype은 항상 변수나 표현식의 형식을 아무 수정없이 보고한다
 * decltype은 형식이 T이고 이름이 아닌 왼값 표현식에 대해서는 항상 T& 형식을 보고한다
 * C++14는 decltype(auto)를 지원한다. decltype(auto)는 auto처럼 초기치로부터 타입을 추론하지만, 그 타입 추론 과정에서 decltype의 규칙들을 적용한다.
+
+## std::forward
+* 템플릿 전용 함수로 데이터형 매개변수를 필히 명시 해야함. (인자추론 불가)
+* 매개변수가 Rvalue 혹은 Rvalue 참조인 경우에 대해 매개변수의 Rvalue 반환, 그렇지 않은 경우 매개변수 그대로 반환.
