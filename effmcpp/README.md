@@ -37,3 +37,9 @@ https://www.visualstudio.com/ko/downloads/
     elki -> ralf -> pjel -> reds -> rodu -> yolo -> elki 순서
 
 * 나머지 사람은 리뷰 : 오탈자, 추가 내용
+
+# 용어 정리
+* 왼값: Lvalue
+* 오른값: Rvalue
+* 형식 연역: 타입 추론
+* 보편 참조: Rvalue 참조
