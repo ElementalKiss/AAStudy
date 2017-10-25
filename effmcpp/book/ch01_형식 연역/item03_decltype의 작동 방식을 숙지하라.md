@@ -122,7 +122,7 @@
 
 ## 기억해 둘 사항들
 * decltype은 항상 변수나 표현식의 형식을 아무 수정없이 보고한다
-* decltype은 형식이 T이고 이름이 아닌 왼값 표현식에 대해서는 항상 T& 형식을 보고한다
+* decltype은 형식이 T이고 이름이 아닌 Rvalue 표현식에 대해서는 항상 T& 형식을 보고한다
 * C++14는 decltype(auto)를 지원한다. decltype(auto)는 auto처럼 초기치로부터 타입을 추론하지만, 그 타입 추론 과정에서 decltype의 규칙들을 적용한다.
 
 ## std::forward
