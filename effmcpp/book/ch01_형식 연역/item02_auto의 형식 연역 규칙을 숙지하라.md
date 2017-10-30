@@ -126,7 +126,7 @@ auto x = { 11, 23, 9 };     // x의 타입은 std::initializer_list<int>
 template<typename T>
 void f(T param);
 
-f({ 11, 23, 9});            // 오류! T에 대한 타입은 역역할 수 없음
+f({ 11, 23, 9});            // 오류! T에 대한 타입은 추론할 수 없음
 ```
 * 하지만 param의 타입이 어떤 알려지지 않은 T에 대한 std::initializer_list<T>인 템플릿에 그 중괄호 초기치를 전달하면 템플릿 타입 추론 규칙들에 의해 T의 타입이 제대로 추론된다.
 ```cpp
@@ -135,6 +135,25 @@ void f(std::initializer_list<T> initList);
 
 f({ 11, 23, 9});        // T는 int로 추론,
                         // initList의 타입은 std::initializer_list<int>로 추론
+```
+
+* C++14 에서는 함수의 반환 형식을 auto로 지정해서 컴파일러가 추론하게 만들 수 있다. 람다의 매개 변수 선언에 auto를 사용하는 것도 가능하다.
+* 그러나 그러한 용법들에는 auto 형식이 아니라 **템플릿 타입 추론** 규칙들이 적용된다.
+* 그래서 중괄호 초기치를 돌려주는 함수의 반환형식을 auto로 지정하면 컴파일이 실패한다.
+```cpp
+auto createInitList()
+{
+    return {1, 2, 3};   Error! {1, 2, 3}의 타입을 추론할 수 없음
+}
+```
+
+* C++14 람다의 매개변수 형식 명세에 auto를 사용하는 경우에도 마찬가지 이유로 컴파일이 실패한다.
+```cpp
+std::vector<int> v;
+...
+auto resetV = [&v](const auto& newValue) { v = newValue; };     // C++14
+...
+resetV({1, 2, 3});  // Error! {1, 2, 3}의 타입을 추론할 수 없음
 ```
 
 ## 정리
