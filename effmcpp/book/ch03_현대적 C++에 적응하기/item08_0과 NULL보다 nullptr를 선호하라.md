@@ -89,7 +89,7 @@ auto lockAndCall(FuncType func, MuxType& mutex, PtrType ptr) -> decltype(func(pt
 ```
 
 * 0과 NULL에 대한 템플릿 타입추론은 int로 된다.
-* mufunc에서 요구하는 타입은 shared_ptr<int>인데 int가 절달되어 컴파일 에러가 난다.
+* mufunc에서 요구하는 타입은 shared_ptr<int>인데 int가 전달되어 컴파일 에러가 난다.
 
 ## 기억해 둘 사항들
 
