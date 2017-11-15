@@ -64,6 +64,22 @@ private:
 };
 ```
 
+* 별칭 템플릿이 더 나은 방식임을 뒤늦게야 깨달은 표준 위원회는 C++11의 모든 형식 변환에 대한 별칭 템플릿 버전들을 C++14에 포함시켰다.
+* C++11에 있는 std::변환<T>::type 형태의 각 형식 특질에 대해, C++14에는 std::변환_t 형태의 별칭 템플릿이 있다.
+
+* C++14에는 C++11 버전들도 그대로 남아 있지만, 그것을 사용할 이유는 없다.
+* C++14를 사용할 수 없는 경우 만들어 사용하자.
+* C++14 표준 명세서의 전자적 저작본("N4140 pdf", "N3337" 검색)을 구한다면 복붙하면 된다.
+```cpp
+template <class T>
+using remove_const_t = typename remove_const<T>::type;
+
+template <class T>
+using remove_reference_t = typename remove_reference<T>::type;
+
+template <class T>
+using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
+```
 
 
 
