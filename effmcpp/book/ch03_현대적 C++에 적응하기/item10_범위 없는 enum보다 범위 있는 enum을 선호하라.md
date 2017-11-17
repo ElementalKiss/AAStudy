@@ -61,25 +61,18 @@ auto e = NewColor::yellow;
     * C++98: enum 정의만 지원
     * C++11: unscoped도 전방 선언이 가능하긴 함. 가능한 이유는 모든 enum의 바탕 형식(underlying type)이 정수 형식이기 때문.
     * 전방 선언이 가능해짐으로써 새로운 열거자가 추가 되어도 전체 컴파일을 하지 않아도 됨.
-    * C++98과 달리 C++11에서 scopred enum이 전방 선언이 가능한 이유는 바탕 형식의 크기를 컴파일러가 언제라도 알 수 있으며, 바탕 형식을 프로그래머가 직접 설정 가능하기 때문.
+    * C++98과 달리 C++11에서 scoped enum이 전방 선언이 가능한 이유는 바탕 형식의 크기를 컴파일러가 언제라도 알 수 있으며, 바탕 형식을 프로그래머가 직접 설정 가능하기 때문.
     * unscoped enum
     ```cpp
-      enum class Status; // underlying type is int
-      enum class Status: std::uint32_t; // underlying type for
+      enum Status; // underlying type is int
+      enum Status: std::uint32_t; // underlying type for
                                         // Status is std::uint32_t
                                         // (from <cstdint>)
     ```
     * scoped enum
     ```cpp
-      enum Color: std::uint8_t; // fwd decl for unscoped enum;
-                                // underlying type is std::uint8_t
-      enum class Status: std::uint32_t { good = 0,
-                                         failed = 1,
-                                         incomplete = 100,
-                                         corrupt = 200,
-                                         audited = 500,
-                                         indeterminate = 0xFFFFFFFF
-                                       };
+      enum class Status; // fwd decl for unscoped enum;
+      enum class Status: std::uint32_t; // underlying type is std::uint8_t
     ```
 
 ## unscoped enum의 장점
