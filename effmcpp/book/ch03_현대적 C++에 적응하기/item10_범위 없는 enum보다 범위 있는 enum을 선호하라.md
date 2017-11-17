@@ -99,12 +99,18 @@ auto e = NewColor::yellow;
   // 작성은 가능하지만 까다로움.
 ```
 * 번외: scoped enum의 사용 시 열거자를 받아서 std::size_t를 반환하는 함수 작성하기
+  * std::get 함수는 함수 인수가 아닌 템플릿 인수를 전달 받음(괄호가 아닌 꺽쇠 사용)
+  * std::get 함수가 리턴 하는 값도 템플릿으로 만드려는 함수는 컴파일 도중에 산출 되어야하니 constexpr 함수여야 함.
+  * 어떤 종류의 enum에 대해서도 작동해야 하기 때문에 정확히는 constexpr 함수 템플릿이여야 함.
+  * 인수가 일반화 되었으니 반환 형식을 일반화 하기 위해서 std::size_t를 리턴하는 것이 아니고 enum의 바탕 형식을 반환하기 위하여 std::underlying_type 형식 특질을 사용 하면 됨.
+  * 해당 함수는 예외가 없으므로 noexcept로 선언
 ```cpp
   template<typename E>
   constexpr typename std::underlying_type<E>::type
   toUType(E enumerator) noexcept
   {
     return static_cast<typename std::underlying_type<E>::type>(enumerator);
+  }
 
   //C++14에서 std::underlying_type_t를 이용하기
   template<typename E> // 
