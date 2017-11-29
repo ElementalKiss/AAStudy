@@ -31,11 +31,74 @@ int f(int x) noexcept;  // C++11
 * noexcept로 선언하면 스택 되감기를 **할 수도** 있고 **안 할 수도** 있다.
 * 컴파일러의 최적화기(optimizer)는 예외가 함수 밖으로 전파 될 때 선택의 **유연성**을 가진다.
 
-## std::vector와 move
 
-## pair
+## move 연산
 
-## 예외중립성
+* push_back의 move로 새로운 메모리를 생성할 경우 내부에서 예외가 발생할 수 있다.
+* move는 "가능하면 move하되 필요하면 copy" 한다의 전략을 사용한다.
+* push_back과 같은 함수는 예외를 발생하지 않아야 C++98의 copy 연산을 C++11의 move 연산으로 대체할 수 있다.
+* 컴파일러는 함수의 noecept를 보고 move 연산이 에외를 방출하지 않음을 알아보고 최적화의 여지가 생긴다.(조삼모사...?)
+
+## swap
+
+```c++
+
+// 실제 함수 내부
+template<class _Ty1,
+	class _Ty2>
+	struct pair
+	{	// store a pair of values
+	typedef pair<_Ty1, _Ty2> _Myt;
+	typedef _Ty1 first_type;
+    typedef _Ty2 second_type;
+    
+    ...
+
+    	void swap(_Myt& _Right)
+		_NOEXCEPT_OP(_Is_nothrow_swappable<_Ty1>::value
+			&& _Is_nothrow_swappable<_Ty2>::value)
+		{	// exchange contents with _Right
+		if (this != _STD addressof(_Right))
+			{	// different, worth swapping
+			_Swap_adl(first, _Right.first);
+			_Swap_adl(second, _Right.second);
+			}
+		}
+
+	_Ty1 first;		// the first stored value
+	_Ty2 second;	// the second stored value
+    };
+
+// 책에서 기술한 함수
+template <class T1, class T2>
+struct pair {
+    ...
+    void swap(pair& p) noexcept(noexcept(swap(first, p.first)) &&
+                                noexcept(swap(second, p.second)));
+    ...
+};
+```
+
+* _NOEXCEPT_OP, _Is_nothrow_swappable 얘들은 결국 안에 들어가보면 noexcept와 연관되어 있다.
+* 이 함수는 조건부 noexcept이다.
+* 인자로 넘어오는 요소들의 swap도 noexcept여야 이 함수가 noexcept로 최적화 여지가 생긴다는 의미.
+* swap 함수를 구현 할때는 이것을 고려하고 noexcept로 코드를 짜는게 바람직하다.
+
+## 예외 중립적(exception_neutral)이지 않은 함수
+
+* 함수는 일반적으로 예외에 중립적이다.
+* 하지만 예외를 전혀 방출하지 않는 것이 자연스러운 구현인 함수들도 있다.
+* 이를 noexcept로 구현하면 최적화에 큰 도움이 된다.
+* 함수가 예외를 리턴하면 status code가 많이 생기고 구현이 복잡해진다. 유지보수가 어려워진다.
+* 메모리 해제 함수, 소멸자들은 암묵적으로 noexcept이며 직접 선언할 필요가 없다.
+
+## wide contract와 narrow contract
+
+* wide contract는 전제 조건이 없이 프로그램의 상태에 무관하게 호출 할 수 있는 함수.
+* 호출자가 전달하는 인수들에 그 어떤 제약도 가하지 않는다.
+* narrow contract는 그 이외.
+* narrow contract로 설계한 noexcept 함수는 예외를 발생하지 않고 미정의 행동을 하기 때문에 클라이언트의 오류 처리가 어렵다.
+* 그러므로 wide contract로 설계된 noexcept 함수를 구현하는 것이 좋다.(라이브러리 개발자들은 이러한 경향을 보인다.) 
 
 ## 결론
 
