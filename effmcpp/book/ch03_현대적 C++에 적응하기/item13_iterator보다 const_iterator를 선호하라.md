@@ -46,10 +46,10 @@ values.insert(it, 1998);
 template<typename C, typename V>
 void findAndInsert(C& container, const V& targetVal, const V& insertVale)
 {
-using std::cbegin;
-using std::cend;
-auto it = std::find(cbegin(container), cend(container), targetVal);
-container.insert(it, insertVal);
+    using std::cbegin;
+    using std::cend;
+    auto it = std::find(cbegin(container), cend(container), targetVal);
+    container.insert(it, insertVal);
 }
 ```
 - 하지만 c++11은 표준화 과정에 begin, end만 추가가 됨
