@@ -47,6 +47,12 @@ class Polynomial {
 ```
 * std::mutex 형식의 객체 m을 잠그고 푸는 멤버 함수들은 비const지만 roots함수 내에서는 m이 const 객체로 간주 되기 때문에 mutable로 선언
 * std::mutex를 복사하거나 이동할 수 없기 때문에 m을 Polynomial에 추가하면 Polynomial의 복사와 이동 능력도 사라진다는 점을 잊지 말 것
+```
+1>c:\users\heome\source\repos\consoleapplication1\consoleapplication1\mutex.cpp(16): error C2280: 'Polynomial::Polynomial(const Polynomial &)': 삭제된 함수를 참조하려고 합니다.
+1>c:\users\heome\source\repos\consoleapplication1\consoleapplication1\mutex.h(15): note: 컴파일러에서 여기에 'Polynomial::Polynomial'을(를) 생성했습니다.
+1>c:\users\heome\source\repos\consoleapplication1\consoleapplication1\mutex.h(15): note: <알 수 없음>이(가) 삭제되거나 액세스할 수 없는 '<알 수 없음>' 함수를 호출하므로 'std::mutex::mutex(const std::mutex &)' 함수가 암시적으로 삭제되었습니다.
+1>c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\mutex(88): note: 'std::mutex::mutex(const std::mutex &)' 함수가 명시적으로 삭제되었습니다.
+```
 
 ## 함수 호출 횟수를 세는 정도의 간단한 연산은 std::atomic 사용
 ```cpp
