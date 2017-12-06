@@ -105,6 +105,7 @@ class Widget {
 * 여러 스레드가 Widget:magicValue2() 함수 호출 시 cacheValid가 값이 먼저 배정되므로 cachedValue 값이 부정확 함.
 
 ## 동기화가 필요한 대상이 여럿인 경우는 뮤텍스를 이용하자
+```cpp
 class Widget {
     public:  
     …
@@ -125,7 +126,8 @@ class Widget {
         mutable std::mutex m;  
         mutable int cachedValue;                  
         mutable bool cacheValid{ false };         
-}; 
+};
+```
 
 ## 기억해 둘 사항들
 * 동시적 문맥에서 쓰이지 않을 것이 확실한 경우가 아니라면 const 멤버 함수는 스레드에 안전하게 작성하라
