@@ -104,7 +104,7 @@ class Widget {
  
     private:
         mutable std::atomic<bool> cacheValid{ false };  
-        utable std::atomic<int> cachedValue;
+        mutable std::atomic<int> cachedValue;
     }; 
 ```
 * 여러 스레드가 Widget:magicValue1() 함수 호출 시 cacheValid가 새로 배정 되기 이전에 접근 하게 되면 동일한 계산이 여러 번 수행 하게 되는 셈.
