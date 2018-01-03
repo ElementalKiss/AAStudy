@@ -69,3 +69,35 @@ processWidget(std::shared_ptr<Widget>(new Widget), computePriority());   // 누�
 ```cpp
 processWidget(std::make_shared<Widget>(), computePriority());   // 누수의 위험이 없음
 ```
+* shared_ptr과 make_shared를 unique_ptr과 make_unique로 대체해도 동일하다.
+
+## std::make_shared의 특징 하나는 향상된 효율성이다.
+* std::make_shared를 사용하면 컴파일러가 좀 더 간결한 자료구조를 사용하는 더 작고 빠른 코드를 산출할 수 있게 된다.
+
+* new를 직접 사용하는 코드는 실제로는 두 번의 할당이 일어난다.
+* Widget 객체를 위한 메모리 할당과 제어 블록을 위한 또 다른 메모리 할당이 일어난다.
+
+* std::make_shared를 사용하면 한 번의 할당으로 충분하다.
+* Widget 객체와 제어 블록 모두를 담을 메모리를 한 번에 할당하기 때문이다.
+
+* 프로그램의 정적 크기가 줄어들며, 실행 코드의 속도도 빨라진다.
+* std::make_shared의 효율성은 std::allocate_shared에도 거의 그대로 적용된다.
+
+* 이처럼 new보다 make 함수들이 소프트웨어 공학과 예외 안정성, 효율성 면에서 유리하다.
+
+## 이 항목의 조언은 이 함수들을 항상 사용하라는 것이 아니라 **선호하라** 는 것임을 주의하자.
+
+* make 함수들 중에는 커스텀 소멸자를 지정할 수 있는 것이 없다. 그러나 std::unique_ptr과 std::shared_ptr은 커스텀 소멸자를 받는 생성자들을 제공한다.
+* Widget을 위한 다음과 같은 커스텀 소멸자가 있다고 할 때,
+```cpp
+auto widgetDeleter = [](Widget* pw) {...};
+```
+
+* 이 소멸자를 사용하는 스마트 포인터를 new를 이용해서 생성하는 것은 간단하다.
+```cpp
+std::unique_ptr<Widget, decltype(widgetDeleter)> upw(new Widget, widgetDeleter);
+
+std::shared_ptr<Widget> spw(new Widget, widgetDeleter);
+```
+
+* 그러나 make 함수로는 이런 일을 할 수 없다.
