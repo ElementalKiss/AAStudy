@@ -37,7 +37,7 @@ else() { } // use wpw                   // else일 때 객체에 접근하는 �
 
 ```cpp
 std::shared_ptr<Widget> spw1 = wpw.lock();  // wpw가 만료이면 spw1은 널
-std::shard_ptr<Widget> spw2(wpw)            // wpw가 만료이면 std::bad_weak_ptr가 발생
+std::shared_ptr<Widget> spw2(wpw)           // wpw가 만료이면 std::bad_weak_ptr가 발생
 ```
 
 ## 유용한 예제1: Widget Caching
