@@ -1,4 +1,4 @@
-# 항목 19: move, forward의 이해
+# 항목 23: move, forward의 이해
 
 ## 선행지식
 
