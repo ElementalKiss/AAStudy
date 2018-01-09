@@ -101,3 +101,66 @@ std::shared_ptr<Widget> spw(new Widget, widgetDeleter);
 ```
 
 * 그러나 make 함수로는 이런 일을 할 수 없다.
+
+## make 함수들의 두 번째 한계는 그 구현들의 구문적 세부사항에서 비롯된 것이다.
+* std::initializer_list를 받는 생성자와 받지 않는 생성자를 모두 가진 형식의 객체를 생성할 때, 생성자 인수들을 중괄호로 감싸면 중복 적재 해소 과정에서 std::initialize_list를 받는 버전이 선택되고, 괄호로 감싸면 std::initializer_list를 받지 않는 버전이 선택된다.
+* make 함수들은 자신의 매개변수들을 객체의 생성자에 완벽하게 전달한다.
+
+```cpp
+auto upv = std::make_unique<std::vector<int>>(10, 20);
+auto spv = std::make_shared<std::vector<int>>(10, 20);
+```
+
+* 스마트 포인터들은 값이 20인 요소 열 개를 담은 vector를 가리킬까?
+  각각 10과 20인 두 요소를 담은 vector를 가리킬까?
+* 결론은 값이 20인 요소 열 개짜리 vector를 생성한다.
+* 이는 make 함수들이 내부적으로 매개변수들을 완벽 전달할 때 중괄호가 아닌 괄호를 사용함을 뜻한다.
+* 중괄호 초기치로 생성하려면 반드시 new를 사용해야 한다.
+
+* make 함수 중 하나로 그런일을 하려면 중괄호 촉기치를 완벽하게 전달할 수 있어야 하는데, 항목30에서 설명하듯이 완벽 전달은 불가능하다.
+* 항목30에서 우회책이 나온다. auto 형식 연역을 이용하여 중괄호 초기치로부터 std::initializer_list 객체를 생성하고, 그것을 make 함수에 넘기면 된다.
+```cpp
+// std::initializer_list 객체 생성
+auto initList = {10, 20};
+
+// 그 std::initializer_list 객체를 이용해서 std::vector를 생성
+auto spv = std::make_shared<std::vector<int>>(initList);
+```
+
+* std::unique_ptr의 경우에는 이상의 두 시나리오가 make 함수들이 문제가 되는 상황이 전부이다.
+* std::shared_ptr과 해당 make 함수들의 경우에는 문제가 되는 시나리오가 두 개 더 있다.(극단적인 경우이지만)
+* 클래스 중에 자신만의 operator new와 operator delete를 정의하는 것들이 있다.
+
+===
+
+## new의 직접 사용에 비한 std::make_shared의 크기 및 속도상의 장점은 std::shared_ptr의 제어 블록이 관리 대상 객체와 동일한 메모리 조각에 놓인다는 점에서 비롯된다.
+* 그 객체의 참조 횟수가 0이 되면 객체가 파괴된다.
+* 그러나 객체가 차지하고 있던 메모리는 해당 제어 블록이 파괴되기 전까지는 해제될 수 없다.
+* 객체와 제어 블록이 동적으로 할당된 같은 메모리 조각에 들어 있기 때문이다.
+
+### 제어 블록에는 참조 카운트 외에도 여러 관리용 정보가 들어 있을 수 있다.
+* 참조 횟수는 제어 블록을 참조하는 std::shared_ptr들의 개수를 뜻한다.
+* 제어 블록을 참조하는 std::weak_ptr들의 개수에 해당하는 weak count도 있다.
+* 만료 판정 시 std::weak_ptr은 자신이 가리키는 제어 블록에 있는 참조 카운트를 점검하고, 0이면 std::weak_ptr은 만료된 것이고, 0이 아니면 만료가 아니다.
+
+* 제어 블록을 참조하는 std::weak_ptr들이 존재하는 한(즉, weak count가 0보다 크다면), 제어 블록은 계속해서 존재해야 한다.
+* 그리고 제어 블록이 존재하는 한 제어 블록을 담고 있는 메모리는 여전히 할당된 상태이어야 한다.
+* 따라서, std::shared_ptr용 make 함수가 할당한 메모리 조각은 그것을 참조하는 마지막 shared_ptr과 마지막 waek_ptr 둘 다 파괴된 후에만 해제될 수 있다.
+* 객체 타입이 크고 마지막 shared_ptr의 파괴와 마지막 weak_ptr의 파괴 사이의 시간 간격이 꽤 길다면, **객체가 파괴된 시점과 객체가 점유하던 메모리가 해제되는 시점 사이에 시간 지연이 생길 수 있다.**
+
+```cpp
+class ReallyBigType { ... };
+
+auto pBigObj = std::make_shared<ReallyBigType>();   // 아주 큰 객체 생성
+
+... // 큰 객체를 가리키는 shared_ptr들과 weak_ptr들을 생성해서 사용
+
+... // 여기서 객체를 가리키는 마지막 shared_ptr이 파괴되나, weak_ptr들은 여전히 남아 있다.
+
+... // 이 부분에서 큰 객체가 차지하던 메모리는 여전히 할당된 상태
+
+... // 여기서 마지막 weak_ptr이 파괴되며, 제어 블록과 객체가 차지하던 메모리가 해제
+
+```
+
+* new를 직접 사용한다면 ReallyBigType 객체를 가리키던 마지막 shared_ptr이 파괴되는 즉시 메모리가 해제될 수 있다.
