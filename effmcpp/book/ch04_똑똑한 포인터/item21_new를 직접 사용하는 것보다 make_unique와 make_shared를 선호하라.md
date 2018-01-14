@@ -164,3 +164,61 @@ auto pBigObj = std::make_shared<ReallyBigType>();   // 아주 큰 객체 생성
 ```
 
 * new를 직접 사용한다면 ReallyBigType 객체를 가리키던 마지막 shared_ptr이 파괴되는 즉시 메모리가 해제될 수 있다.
+
+```cpp
+class ReallyBigType { ... };
+
+std::shared_otrMReallyBigType> pBigObj(new ReallyBigType);  // 아주 큰 객체를 new를 이용해서 생성
+
+...     // 이전처럼 객체를 가리키는 shared_ptr들과 weak_ptr들을 생성해서 사용
+
+...     // 객체를 가리키는 마지막 shared_ptr이 파괴되나, weak_ptr들은 여전히 남아있다. 객체의 메모리는 해제된다.
+
+...     // 제어 블록을 위한 메모리만 할당된 상태
+
+...     // 여기서 객체를 가리키는 마지막 weak_ptr이 파괴된다. 이제 제어 블록의 메모리 해제
+
+```
+
+
+* 혹시라도 make_shared를 사용할 수 없거나 부적합한 상황이라면, 예외 안정선 문제들을 세심하게 방지할 필요가 있다.
+* new 를 직접 사용하면서도 예외 안정성 문제를 겪지 않는 최선의 방책은, new의 결과를 **다른 일은 전혀 하지 않는 문장에서** 스마트 포인터의 생성자에 즉시 넘겨주는 것이다.
+* 그러면 new 연산자의 호출과 생성된 객체를 관리할 스마트 포인터 생성자 호출 사이에서 예외가 발생할 여지가 사라진다.
+
+* 한 예로 예외에 안전하지 않은 processWidget 함수 호출 예제에서 커스텀 삭제자를 사용한다.
+```cpp
+void processWidget(std::shared_ptr<Widget> spw, int priorty);
+
+void customDel(Widget *ptr);    // 커스텀 삭제자
+
+processWidget(std::shared_ptr<Widget>(new Widget, customDel), computePriority());   // 자원 누수 위험이 있음
+```
+
+* 예제에서는 커스텀 삭제자 때문에 make_shared를 사용할 수 없다.
+* Widget의 할당과 shared_ptr 생성을 개별적인 문장으로 두고, 그 문장에서 생성한 shared_ptr로 processWidget을 호출하자.
+```cpp
+std::shared_ptr<Widget> spw(new Widget, customDel);
+
+processWidget(spw, computePriority());  // 최적은 아님, 개선이 필요
+```
+
+* 위코드는 생성자에서 예외가 발생한다 해도, shared_ptr은 생성자로 전달된 생 포인터의 소유권을 확보하기 때문에 예외에 안전하다.
+
+* 예외에 안전하지 않은 호출에서는 processWidget에 R벨류를 넘겨준다.
+* 그러나 안전한 호출에서는 L벨류를 넘겨준다.
+
+* processWidget의 shared_ptr 매개변수는 값 전달 방식이므로, R벨류를 넘겨줄 때는 shared_ptr 객체가 move 생성에 의해 만들어진다.
+* 그러나 L벨류를 넘겨주면 copy 생성이 일어난다.
+* 복사하려면 참조 카운트를 원자적으로 증가해야 하지만, 이동할 때에는 참조 카운트를 조작할 필요가 없기 때문에 move와 copy의 차이가 클 수 있다.
+* 예외에 안전한 코드의 성능을 끌어 올리려면, std::move를 적용해서(항목 23 참고) spw를 R벨류로 변환해야 한다.
+```cpp
+processWidget(std::move(spw), computePriority());   // 예외 안정성과 효율성을 모두 갖춤
+```
+
+* make 함수를 사용할 수 없는 상황은 흔치 않다.
+* 사용하지 않을 특별한 이유가 없는 한, make 함수를 사용하는 것이 옳은 선택이다.
+
+## 기억해 둘 사항들
+* new의 직접 사용에 비해, make 함수를 사용하면 소스 코드 중복의 여지가 없어지고, 예외 안전성이 향상되고, std::make_shared와 std::allocate_shared의 경우 더 작고 빠른 코드가 산출된다.
+* make 함수의 사용이 불가능하거나 부적합한 경우는 커스텀 삭제자를 지정해야 하는 경우와 중괄호 초기치를 전달해야 하는 경우가 있다.
+* std::shared_ptr에 대해서는 make 함수가 부적합한 경우가 더 있는데, 첫 번째 예는 (1) 커스텀 메모리 관리 기능을 가진 클래스를 다루는 경우와 (2) 메모리가 넉넉하지 않은 시스템에서 큰 객체를 자주 다루어야 하고 weak_ptr들이 해당 shared_ptr들 보다 더 오래 살아남는 경우이다.
