@@ -181,7 +181,7 @@ Widget& Widget::operator=(const Widget&& rhs)
 * 이동 생성자와 이동 할당 연산자를 헤더에 선언만 하면 소멸자와 동일한 문제가 발생하기 때문에 cpp 파일에 정의를 하는 동일한 작업 필요
 * 복사 생성자와 복사 할당 연산자의 경우 std::unique_ptr 같은 이동 전용 형식이 있는 클래스에 대해서는 컴파일러가 복사 연산들을 작성해주지 않고 작성한다고 해도 shallow copy만 진행 되기 때문에 직접 정의 해주어야 한다.
 
-### shared_prt을 이용하기
+### shared_ptr을 이용하기
 ```cpp
 class Widget {
 public:
