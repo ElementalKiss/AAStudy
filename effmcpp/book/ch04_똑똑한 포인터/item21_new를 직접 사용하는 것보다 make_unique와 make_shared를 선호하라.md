@@ -131,8 +131,6 @@ auto spv = std::make_shared<std::vector<int>>(initList);
 * std::shared_ptr과 해당 make 함수들의 경우에는 문제가 되는 시나리오가 두 개 더 있다.(극단적인 경우이지만)
 * 클래스 중에 자신만의 operator new와 operator delete를 정의하는 것들이 있다.
 
-===
-
 ## new의 직접 사용에 비한 std::make_shared의 크기 및 속도상의 장점은 std::shared_ptr의 제어 블록이 관리 대상 객체와 동일한 메모리 조각에 놓인다는 점에서 비롯된다.
 * 그 객체의 참조 횟수가 0이 되면 객체가 파괴된다.
 * 그러나 객체가 차지하고 있던 메모리는 해당 제어 블록이 파괴되기 전까지는 해제될 수 없다.
@@ -168,7 +166,7 @@ auto pBigObj = std::make_shared<ReallyBigType>();   // 아주 큰 객체 생성
 ```cpp
 class ReallyBigType { ... };
 
-std::shared_otrMReallyBigType> pBigObj(new ReallyBigType);  // 아주 큰 객체를 new를 이용해서 생성
+std::shared_ptr<ReallyBigType> pBigObj(new ReallyBigType);  // 아주 큰 객체를 new를 이용해서 생성
 
 ...     // 이전처럼 객체를 가리키는 shared_ptr들과 weak_ptr들을 생성해서 사용
 
