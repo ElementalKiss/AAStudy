@@ -2,15 +2,15 @@
 
 ## Forwarding Reference ?
 * 보편참조, Universal Reference, Forwarding Reference, 모두 같은 의미
-* Universal Reference :  스콧마이어스 제안
+* Universal Reference : 스콧마이어스 제안
 * Forwarding Reference : C++17 제안
-*  (https://stackoverflow.com/questions/39552272/is-there-a-difference-between-universal-references-and-forwarding-references)
+* (https://stackoverflow.com/questions/39552272/is-there-a-difference-between-universal-references-and-forwarding-references)
 
 ## T&& 두가지 의미
 * rValue Reference
-*  rValue만을 참조하기 위한 타입
+* rValue만을 참조하기 위한 타입
 * Forwarding Reference
-*  rValue, lValue 둘 중 하나를 참조하기 위한 타입
+* rValue, lValue 둘 중 하나를 참조하기 위한 타입
 
 ```c++
 void f(Widget&& param)		// rValue Reference
