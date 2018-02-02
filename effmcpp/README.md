@@ -42,4 +42,4 @@ https://www.visualstudio.com/ko/downloads/
 * 왼값: Lvalue
 * 오른값: Rvalue
 * 형식 연역: 타입 추론
-* 보편 참조: Rvalue 참조
+* 보편 참조: 포워딩 참조
