@@ -1,4 +1,5 @@
 #### * 예제 코드
+- rValue reference를 받는 widget 개체를 선언
 ```c++
 class Widget {
     Widget(Widget&& rhs);
@@ -70,7 +71,7 @@ void setSignText(T&& text){
     signHistory.add(now, std::forward<T>(text)); // 마지막에 사용
 }
 ```
-2. 함수가 return by value이고 그값이 rValue reference나 forwarding reference 타입인경
+2. 함수가 return by value이고 그값이 rValue reference나 forwarding reference 타입인 경우
 ```c++
 Matrix operator+(Matrix&& lhs, const Matrix& rhs){
     lhs += rhs;
