@@ -82,7 +82,6 @@ LogAndAdd("SerKey"); // case 3: literal value 전달
 
 * std::string NameFromIdx(int idx)라는 idx에 해당하는 이름을 돌려주는 함수가 있다.
 * 일부 클라이언트가 name을 직접 들고 있지 못하고 ***이름을 가리키는 색인만*** 안다는 가정.
-* idx 값을 넣으면 
 
 ```cpp
 std::string NameFromIdx(int idx); // 색인에 대응하는 string을 리턴
