@@ -18,7 +18,6 @@
 ## 값 전달 방식의 매개변수를 사용한다
 
 * 종종 복잡도를 높이지 않고 성능을 높일 수 있는 한 가지 접근방식은, call by reference 대신 call by value를 사용하는 것
-* 
 
 ```cpp
 class Person {
@@ -127,7 +126,22 @@ public:
 
 * 결론적으로 조건은 !std::is_same<Person, std::decay<T>::type>::value
 
-## 절충점들
+```cpp
+class Person {
+public:
+    template<typename T, typename = std::enable_if_t<!std::is_base_of<Person, std::decay_t<T>>::value
+        && !std::is_integral<std::remove_reference_t<T>>::value>>
+    explicit Person(T&& n) : name(std::forward<T>(n))
+    {...}
+
+    explicit Person(int idx) : name(nameFromIdx(idx))
+    {...}
+
+private:
+    std::string name;
+}
+```
+* 이 설계는 완벽 전달을 사용하므로 효율성이 최대이며, 보편 참조에 대한 오버로딩을 금지하는 대신 둘의 조합을 제어하므로 오버로딩을 피할 수 없는 상황에도 적용할 수 있다.
 
 
 ## 기억해 둘 사항들
