@@ -37,6 +37,68 @@ void func(Widget& parma); // 최종 함수 서명
 * 두 참조 중 하나라도 왼값 참조이면 결과는 왼값 참조, 그렇지 않으면 오른값 참조.
 
 ## std::foward
+```cpp
+template<typename T>
+void f(T&& fParam)
+{
+	...
+	someFunc(std::forward<T>(fParam));
+}
+```
+```cpp
+// 저자가 생각하는 foward 구현
+template<typename T>
+T&& foward(typename remove_reference<T>::type& param) // C++14에서는 T&& foward(remove_reference_t<T>& param)
+{
+	return static_cast<T&&>(param);
+}
+```
+```cpp
+// 실제 구현
+	// FUNCTION TEMPLATE forward
+template<class _Ty>
+	constexpr _Ty&& forward(remove_reference_t<_Ty>& _Arg) _NOEXCEPT
+	{	// forward an lvalue as either an lvalue or an rvalue
+	return (static_cast<_Ty&&>(_Arg));
+	}
+
+template<class _Ty>
+	constexpr _Ty&& forward(remove_reference_t<_Ty>&& _Arg) _NOEXCEPT
+	{	// forward an rvalue as an rvalue
+	static_assert(!is_lvalue_reference_v<_Ty>, "bad forward call");
+	return (static_cast<_Ty&&>(_Arg));
+	}
+
+```
+* 왼값 대입
+```cpp
+Widget& && foward(typename remove_reference<Widget&>::type& param)
+{
+	return static_cast<Widget& &&>(param);
+}
+
+Widget& && foward(Widget& param) // remove_reference<Widget&>::type이 Widget 산출
+{
+	return static_cast<Widget& &&>(param);
+}
+
+Widget& foward(Widget& param) // 참조 축약 발생
+{
+	return static_cast<Widget&>(param);
+}
+```
+* 오른값 대입
+```cpp
+Widget&& foward(typename remove_reference<Widget>::type& param)
+{
+	return static_cast<Widget&&>(param);
+}
+
+Widget&& foward(Widget& param) // remove_reference<Widget>::type이 Widget 산출
+{
+	return static_cast<Widget&&>(param);
+}
+```
 
 ## 참초 축약이 일어나는 문맥
 * 템플릿 인스턴스화
