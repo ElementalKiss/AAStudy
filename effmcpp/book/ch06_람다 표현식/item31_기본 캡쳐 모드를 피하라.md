@@ -6,7 +6,7 @@
 2. capture by value
     - 값캡쳐도 dangling위험이 존재
     - 자기 완결적(self-contained)일것 같지만 그렇지 않은 경우도 존재
-
+---
 ```c++
 using FilterContainer = std::vector<std::function<bool(int)>>;
 
@@ -23,7 +23,7 @@ void addDivisorFilter()
 }
 ```
 - addDivisorFilter함수가 반환이 되면 divisor가 존재하지 않음.
-
+---
 ```c++
 class Widget{
 public:
@@ -40,7 +40,6 @@ void Widget::addFilter() const
 ```
 - capture는 오직 람다가 생성된 범위 안에서 보이는, static이 아닌 지역 변수에만 적용.
 - = 기본캡쳐모드가 이나면 컴파일이 되지 않는다. 암묵적으로 this로 쓰이기 때문
-
 ```c++
 void Widget::addFilter() const
 {
@@ -67,7 +66,7 @@ void Widget::addFilter() const
     filters.emplace_back([divisor = divisor](int value){ return value % divisor == 0;});
 }
 ```
-
+---
 - 적정 저장소의 객체는 캡쳐가 되지 않는다. 당연한 소리겠지만 람다안에서 사용할수 있다.
 ```c++
 void addDivisorFilter()
