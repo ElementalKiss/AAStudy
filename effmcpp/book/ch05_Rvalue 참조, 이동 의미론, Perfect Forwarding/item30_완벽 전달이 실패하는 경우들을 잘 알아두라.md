@@ -1,7 +1,7 @@
-# 항목 30: Perfect fowarding이 실패하는 경우들을 잘 알아두라
+# 항목 30: Perfect forwarding이 실패하는 경우들을 잘 알아두라
 ## 개요
 
-- Perfect fowarding은 완벽하지 않다.
+- Perfect forwarding은 완벽하지 않다.
 - 완벽하지 않는 두가지 경우를 알고 설계하자.
 
 ---
@@ -34,19 +34,19 @@ void fwd(Ts&&... params)
 }
 ```
 
-- 가변인수 (variadic)이 Perfect fowarding의 기본 공통적인 형태
+- 가변인수 (variadic)이 Perfect forwarding의 기본 공통적인 형태
   + 표준 컨테이너의 emplace 함수들
   + Smart Pointer의 Factory function (`std::make_shared`, `std::make_unique`)
 
 ---
 
-## Perfect fowarding의 실패
+## Perfect forwarding의 실패
 
 - 동일한 인자를 f()와 fwd()로 호출 했을 때의 행위가 다르다면 실패이다.
 ```C++
 f ( exp );	// 이 호출이 하는 일과
 fwd ( exp );	// 이 호출이 하는 일이 다르다면 
-		// Perfect fowarding 하지 못함을 의미한다.
+		// Perfect forwarding 하지 못함을 의미한다.
 ```
 
 ### 1. 중괄호 초기치 (Braced initializers)
@@ -60,7 +60,7 @@ f({ 1, 2, 3 });   // OK; "{1, 2, 3}"는 암묵적
 fwd({ 1, 2, 3 }); // 오류! 컴파일 되지 않음
 ```
 
-- 중괄호 초기치의 Perfect fowarding의 실패 원인을 알자
+- 중괄호 초기치의 Perfect forwarding의 실패 원인을 알자
   + f() 호출 시, 컴파일러는 f의 선언 const std::vector<int>&를 확인할 수 있다.
   + fwd() 호출 시에는 상황이 다르다.
     fwd()에 전달받은 인수들의 타입추론이 일어나고,
@@ -86,9 +86,9 @@ fwd({ 1, 2, 3 }); // 컴파일러 오류
 
 ```C++
 // 우회 방법
-auto il = { 1, 2, 3 };  // li의 타입 추론 결과는
+auto li = { 1, 2, 3 };  // li의 타입 추론 결과는
 			// std::initializer_list<int>이다.
-fwd(il);		// OK; li이 f로 완벽하게 전달 된다.
+fwd(li);		// OK; li이 f로 완벽하게 전달 된다.
 ```
 
 ---
@@ -214,7 +214,7 @@ fwd(length);	// 복사본 전달
 
 ## 결론
 
-- 대부분의 경우 Perfect fowarding은 정상 동작한다.
+- 대부분의 경우 Perfect forwarding은 정상 동작한다.
 - 그러나 정상동작 하지 않을 때에는 상위의 5가지 경우를 기억하자.
   Braced initializers, 0 or NULL as nullptr, static const로 선언된 자료타입,
   중복적재된 함수 이름과 템플릿 이름, 비트 필드
