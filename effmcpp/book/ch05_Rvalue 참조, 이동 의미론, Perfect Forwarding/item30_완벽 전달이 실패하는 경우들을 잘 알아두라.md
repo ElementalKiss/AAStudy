@@ -87,9 +87,9 @@ fwd({ 1, 2, 3 }); // 컴파일러 오류
 
 ```C++
 // 우회 방법
-auto li = { 1, 2, 3 };  // li의 타입 추론 결과는
+auto il = { 1, 2, 3 };  // li의 타입 추론 결과는
 			// std::initializer_list<int>이다.
-fwd(li);		// OK; li이 f로 완벽하게 전달 된다.
+fwd(il);		// OK; il이 f로 완벽하게 전달 된다.
 ```
 
 ---
@@ -226,7 +226,7 @@ fwd(length);	// 복사본 전달
 ---
 
 ## 각주
-###(*1) 비 포인터 
+### (*1) 비 포인터 
 ```C++
 void TakeArr(int arr[]);  // 1
 void TakePtr(int* arr);  // 2
@@ -237,7 +237,7 @@ void TakeFuncPtr(int (*f)(int));  // 4
    + 1 > 2 로 되는 것 처럼
    + 3 > 4 로 변환 동작합니다.
 
-###(*2) 비트 필트
+### (*2) 비트 필트
 ```C++
 fwd(static_cast<uint16_t>(h.totalLength)); // 정상 동작
 ```
