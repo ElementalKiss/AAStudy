@@ -139,7 +139,7 @@ constexpr std::size_t Widget::MinVals;	// Widget.cpp
 
 ```C++
 // void f(int (*pf)(int));
-void f(int pf(int));	// 비 포인터 구문
+void f(int pf(int));	// 비 포인터 구문 (*1 참고)
 
 int processVal(int value);
 int processVal(int value, int priuority);
@@ -209,9 +209,11 @@ fwd(h.totalLength); // Error;
   + 이 복사본을 참조하게 하자.
 ```C++
 // 비트필드 값을 복사한다. 이런 초기화 구문에 대해서는 item 6을 보라.
-auto length = static_cast<std::uint16_t>(h.totalLength);
+auto length = static_cast<std::uint16_t>(h.totalLength); // (*2 참고)
 fwd(length);	// 복사본 전달
 ```
+
+---
 
 ## 결론
 
@@ -220,5 +222,26 @@ fwd(length);	// 복사본 전달
   Braced initializers, 0 or NULL as nullptr, static const로 선언된 자료타입,
   중복적재된 함수 이름과 템플릿 이름, 비트 필드
 - 그에 대한 우회책은 생각보다 간단하다.
+
+---
+
+## 각주
+###(*1) 비 포인터 
+```C++
+void TakeArr(int arr[]);  // 1
+void TakePtr(int* arr);  // 2
+void TakeFunc(int f(int));  // 3
+void TakeFuncPtr(int (*f)(int));  // 4
+```
+ - 배열 포인터 붕괴 현상과 동일하게 함수 포인터 붕괴로 보시면 .
+   + 1 > 2 로 되는 것 처럼
+   + 3 > 4 로 변환 동작합니다.
+
+###(*2) 비트 필트
+```C++
+fwd(static_cast<uint16_t>(h.totalLength)); // 정상 동작
+```
+ - 간단하게, 전달 받은 데이터를 어떤 타입으로 추론할 줄 몰라 발생한다고 보임
+   + 명시적으로 uint16_t로 캐스팅하니 정상 동작함
 
 # END
