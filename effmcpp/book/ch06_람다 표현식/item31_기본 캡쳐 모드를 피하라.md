@@ -1,10 +1,10 @@
-# 항복 31: 기본 갈무리 모드를 피하라
+# 항목 31: 기본 갈무리 모드를 피하라
 
 ### c++11 기본 갈무리(이하 캡쳐) 모드는 두가지
 1. capture by reference
     - dangling의 위험이 존재
 2. capture by value
-    - 값캡쳐도 dangling위험이 존재
+    - 값 캡쳐도 dangling위험이 존재
     - 자기 완결적(self-contained)일것 같지만 그렇지 않은 경우도 존재
 ---
 ```c++
@@ -39,7 +39,7 @@ void Widget::addFilter() const
 }
 ```
 - capture는 오직 람다가 생성된 범위 안에서 보이는, static이 아닌 지역 변수에만 적용.
-- = 기본캡쳐모드가 이나면 컴파일이 되지 않는다. 암묵적으로 this로 쓰이기 때문
+- = 기본캡쳐모드가 면 컴파일이 되지 않는다. 암묵적으로 this로 쓰이기 때문
 ```c++
 void Widget::addFilter() const
 {
