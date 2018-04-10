@@ -39,7 +39,7 @@ void Widget::addFilter() const
 }
 ```
 - capture는 오직 람다가 생성된 범위 안에서 보이는, static이 아닌 지역 변수에만 적용.
-- = 기본캡쳐모드가 면 컴파일이 되지 않는다. 암묵적으로 this로 쓰이기 때문
+- = 기본 캡쳐 모드라면 컴파일이 되지 않는다. 암묵적으로 this로 쓰이기 때문
 ```c++
 void Widget::addFilter() const
 {
@@ -67,7 +67,7 @@ void Widget::addFilter() const
 }
 ```
 ---
-- 적정 저장소의 객체는 캡쳐가 되지 않는다. 당연한 소리겠지만 람다안에서 사용할수 있다.
+- 적정 저장소의 객체는 캡쳐가 되지 않는다. 당연한 소리겠지만 람다안에서 사용할 수 있다.
 ```c++
 void addDivisorFilter()
 {
