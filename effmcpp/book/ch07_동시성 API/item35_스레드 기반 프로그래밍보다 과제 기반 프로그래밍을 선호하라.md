@@ -9,7 +9,7 @@
 ---
 # 항목 35: Thread 기반 프로그래밍보다 Task 기반 프로그래밍을 선호하라
 
-* doAsyncWorkd라는 함수를 비동기로 실행해야 되는 상황.
+* doAsyncWork라는 함수를 비동기로 실행해야 되는 상황.
 
 ## thread-based 예시
 
@@ -31,12 +31,12 @@ auto future = std::async(doAsyncWork);
 
 * 이런 호출에서 std::async에 전달된 함수 객체(doAsyncWork)는 하나의 Task로 간주된다.
 
-## thead-based와 task-based 비교
+## thread-based와 task-based 비교
 
 * 대체적으로 task-based가 우월하다.
 * doAsyncWork는 반환값을 돌려주는데 호출하는 코드가 그 값에 관심이 있을거라 가정할 수 있다.
 * thread_based에선 그 반환값에 접근할 방법이 없다.
-* task-based에선 auto future로 받은 std::async 미래 객채에 예를들면 get이라는 함수로 예외를 방출했는지 확인할 수 있다.
+* task-based에선 auto future로 받은 std::async 미래 객체에 예를들면 get이라는 함수로 예외를 방출했는지 확인할 수 있다.
 * task-based에선 get으로 예외에 접근할 수 있지만 thread-based는 프로그램이 죽는다.
 
 ## 두 방식의 근본적인 차이
@@ -77,7 +77,7 @@ auto future = std::async(doAsyncWork);
   어떤 것인지알 수 없기 때문이다. 이런 경우 std::launch::async라는 시동 방침(launch policy)을 넘겨주면 된다.
   그러면 실행하고자 하는 함수가 실제로 현재 thread와는 다른 thread에서 실행된다.
 * 최신의 thread 스케줄러는 시스템 전역 thread pool을 이용해 oversubscription을 피한다.
-* 작업 훔피기(work-stealing) 알고리즘으로 부하를 하드웨어 코어들에게 좀 더 균형 있게 분산한다.
+* 작업 훔치기(work-stealing) 알고리즘으로 부하를 하드웨어 코어들에게 좀 더 균형 있게 분산한다.
 
 ## thread-based를 사용하는 것이 적합한 경우
 
