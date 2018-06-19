@@ -150,7 +150,7 @@ private:
   std::thread t;
 };
 ```
-* std::thread 초기화되자마자 실행될수 있으므로 항상 제일 마지막에 선언하는것이 좋다.
+* std::thread 초기화되자마자 실행될수 있으므로 항상 멤버 변수 제일 마지막에 선언하는것이 좋다.
 
 
 ## ThreadRAII를 적용한 예시 코드
@@ -186,6 +186,6 @@ bool doWork(std::function<bool(int)> filter, int maxVal = tenMillion)
 
 ## 정리
 * 모든 경로에서 std::thread를 joinable이 되지 않도록 만들어라
-* 소멸시 join방식은 디버깅하기 어려운 성능이상으로 이어질수 있다.
-* 소멸시 detach방식은 디버기하기 어려운 크래쉬로 이어질수 있다.
-* std::thread는 멤버변수의 제일 마지막에 선언하라.
+* 소멸시 join방식은 디버깅하기 어려운 성능 이상으로 이어질수 있다.
+* 소멸시 detach방식은 디버깅하기 어려운 크래쉬로 이어질수 있다.
+* std::thread는 멤버 변수의 제일 마지막에 선언하라.
