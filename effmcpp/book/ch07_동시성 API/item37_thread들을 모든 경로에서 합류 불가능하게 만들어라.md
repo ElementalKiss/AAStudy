@@ -4,6 +4,13 @@
 * 먼저 thread의 join, joinable, detach이란?
 
 ```c++
+/*
+Blocks the current thread until the thread identified by *this finishes its execution.
+
+The completion of the thread identified by *this synchronizes with the corresponding successful return from join().
+
+No synchronization is performed on *this itself. Concurrently calling join() on the same std::thread object from multiple threads constitutes a data race that results in undefined behavior.
+*/
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -34,6 +41,11 @@ int main()
 ```
 
 ```c++
+/*
+Separates the thread of execution from the thread object, allowing execution to continue independently. Any allocated resources will be freed once the thread exits.
+
+After calling detach *this no longer owns any thread.
+*/
 #include <iostream>
 #include <chrono>
 #include <thread>
