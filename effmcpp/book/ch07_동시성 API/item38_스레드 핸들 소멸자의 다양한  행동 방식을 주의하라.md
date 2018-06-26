@@ -31,7 +31,7 @@
 
 ### 단순한 모델
 
-![Naive caller-callee model](https://github.com/ElementalKiss/AAStudy/tree/master/effmcpp/book/images/thread_caller_callee1.png "Naive caller-callee model")
+![Naive caller-callee model](../images/thread_caller_callee1.png)
 
 - callee의 계산 결과는 어디에 저장되어야 할까?
     + caller가 `std::future`를 통해 계산 결과를 요청하기 전에 callee가 종료될 수 있으니 `std::promise`에는 저장할 수 없다.
@@ -40,7 +40,7 @@
 
 ### 실제 모델
 
-![Actual caller-callee model](https://github.com/ElementalKiss/AAStudy/tree/master/effmcpp/book/images/thread_caller_callee2.png "Actual caller-callee model")
+![Actual caller-callee model](../images/thread_caller_callee2.png)
 
 - 스레드의 계산 결과는 caller, callee 중 어느쪽에도 저장되지 않고 **shared state**라는 heap 기반 객체 내에 저장된다.
 
