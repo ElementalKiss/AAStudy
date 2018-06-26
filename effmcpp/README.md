@@ -34,7 +34,7 @@ https://www.visualstudio.com/ko/downloads/
 
 * 정리 순서
 
-    reds -> ralf -> pjel -> elki -> rodu -> yolo -> elki 순서
+    reds -> ralf -> pjel -> elki -> rodu -> yolo -> reds 순서
 
 * 나머지 사람은 리뷰 : 오탈자, 추가 내용
 
