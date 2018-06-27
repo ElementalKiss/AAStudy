@@ -12,16 +12,33 @@
 
 ## 개요
 
-### 공통점
+### `std::thread`, `std::future` 비교
+
+#### 공통점
 
 - joinable한 `std::thread`는 시스템의 실행 스레드와 대응된다.
 - non-deffered task(item36 참고)가 리턴하는 `std::future` 객체 또한 시스템 스레드에 대하여 비슷한 관계이다.
 - 결국 `std::thread`와 `std::future` 둘다 시스템 스레드에 대한 handle이라고 할 수 있다.
 
-### 차이점
+#### 차이점
 
 - joinable한 `std::thread`의 소멸은 프로그램을 멈추게 한다. (암묵적인 **join**과 암묵적인 **detach**를 피하기 위해)
 - 반면에 `std::future`의 소멸자는 암묵적인 join을 할 수도 있고 암묵적인 detach를 할 수도 있고, 어느것도 하지 않을수도 있다.
+
+### `std::future`, `std::promise` 사용 예시
+
+```C++
+std::promise<int> promise;
+std::future<int> fut = promise.get_future();
+
+std::thread t([](std::promise<int> promise) {
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    promise.set_value(412);
+}, std::move(promise));
+t.detach();
+
+std::cout << fut.get() << std::endl;
+```
 
 ---
 
@@ -58,7 +75,7 @@
 
 - `std::future`의 소멸자의 행동이 복잡해보이지만 실은 다음 세 조건이 만족되었을 때에만 소멸자 내에서 암묵적인 join을 한다는 것이다.
     + 해당 `std::future` 객체가 `std::async`에 의해 생성된 shared state를 가리킨다.
-    + 해당 task의 실행 모드를 `std::laucn::async`로 지정했거나, 런타임 시스템이 해당 모드를 선택했다. (item36 참조)
+    + 해당 task의 실행 모드를 `std::launch::async`로 지정했거나, 런타임 시스템이 해당 모드를 선택했다. (item36 참조)
     + 해당 `std::future` 객체가 shared state를 가리키는 마지막 객체이다. (`std::shared_future`의 경우 여러 객체가 한 shared state를 가리킬 수 있다)
 
 ### 왜 그랬을까?
