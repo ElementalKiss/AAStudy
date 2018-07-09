@@ -81,7 +81,6 @@ w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 * 무조건 값 전달 방식을 사용하라는 것이 아니라 고려하라는 것.
 * 복사 가능 매개변수에 대해서만 값 전달을 고려 해야 함.
 	* 이동 전용 형식의 overloading 구현
-	lvalue 복사는 복사 생성자를 호출하지만 이동 전용 형식에서는 복사 생성자가 비활성 되어 있으므로 rvalue 참조 버전만 구현하면 됨.
 		```cpp
 		class Widget {
 		public:
@@ -97,7 +96,8 @@ w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 		...
 		w.setPtr(std::make_unique<std::string>("Modern C++"));
 		```
-		멤버 p로 이동 시킬 때 이동 비용 1회 발생
+		* lvalue 복사는 복사 생성자를 호출하지만 이동 전용 형식에서는 복사 생성자가 비활성 되어 있으므로 rvalue 참조 버전만 구현하면 됨.
+		* 멤버 p로 이동 시킬 때 이동 비용 1회 발생
 	* 값 전달 방식 구현
 		```cpp
 		class Widget {
@@ -114,7 +114,7 @@ w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 		...
 		w.setPtr(std::make_unique<std::string>("Modern C++")); 
 		```
-		매개변수 ptr로 이동 생성 후, 멤버 p로 이동. 이동 비용 2회 발생.
+		* 매개변수 ptr로 이동 생성 후, 멤버 p로 이동. 이동 비용 2회 발생.
 * 값 전달은 이동이 저렴한 매개변수에 대해서만 고려 해야 함.
 * 항상 복사되는 매개변수에 대해서만 고려 해야 함.
 	``` cpp
@@ -130,7 +130,46 @@ w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 		std::vector<std::string> _names;
 	};
 	```
-	조건에 부합하지 못해서 _names에 아무것도 추가 하지 않아도 newName의 생성/파괴 비용 발생.
+	* 조건에 부합하지 못해서 _names에 아무것도 추가 하지 않아도 newName의 생성/파괴 비용 발생.
+* 배정을 통한 복사를 사용 할 때의 잠재적 비용 증가 문제
+	```cpp
+	class Password {
+	public:
+		explicit Password(std::string pwd) 
+		: _text(std::move(pwd)) {}
+
+		void changeTo(std::string newPwd) {
+			_text = std::move(newPwd);
+		}
+
+	private:
+		std::string _text;
+	};
+
+	std::string initPwd("Supercalifragilisticexpialidocious");
+	Password p(initPwd);
+
+	std::string newPassword = "Beware the Jabberwock adkfjsldkfjasdlkfj;asdflkjasd;flkjasdf;jkldsfjkls";
+	p.changeTo(newPassword);
+	```
+	* changeTo 함수에서 newPwd가 생성 될 때 std::string 복사 생성자 호출에서 새로운 패스워드를 담을 메모리 할당.
+	* 이후 newPwdrk _text로 이동 배정 될 때 기존 메모리 해제.
+
+	```cpp
+	class Password {
+	public:
+		...
+
+		void changeTo(const std::string& newPwd) {
+			_text = newPwd;
+		}
+
+	private:
+		std::string _text;
+	};
+	```
+	* overloading 방식을 이용하면 할당과 해제 문제 생략 가능
+
 
 
 	
