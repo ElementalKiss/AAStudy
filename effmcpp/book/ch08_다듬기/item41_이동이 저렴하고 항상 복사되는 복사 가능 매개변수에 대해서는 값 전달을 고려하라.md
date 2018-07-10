@@ -1,6 +1,6 @@
 # 항목 41: 이동이 저렴하고 항상 복사되는 복사 가능 매개변수에 대해서는 값 전달을 고려하라.
 
-## 복사 되도록 만들어진 함수 매개 변수
+## 복사 되도록 만들어진 함수 매개 변수를 개선
 * overloading 구현 > lvalue 인수는 복사하되 rvalue 인수는 이동
 	``` cpp
 	class Widget46 {
@@ -60,7 +60,7 @@ w.AddName(name); // call lvalue, 복사 생성
 ...
 w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 ```
-* 두 번째 호출은 std::string에 대한 operator+ 호출로부터 생성되는 std::string 객체로 초기화되기 때문에 rvalue 호출.
+* 두 번째 호출은 std::string에 대한 operator+ 호출로부터 생성되는 std::string 객체로 초기화되기 때문에 rvalue로 호출.
 
 ## 구현 방식 별 비용 분석
 * overloading 구현 방식
@@ -131,45 +131,68 @@ w.AddName(name + "Jenne"); //call rvalue, 이동 생성.
 	};
 	```
 	* 조건에 부합하지 못해서 _names에 아무것도 추가 하지 않아도 newName의 생성/파괴 비용 발생.
-* 배정을 통한 복사를 사용 할 때의 잠재적 비용 증가 문제
-	```cpp
-	class Password {
-	public:
-		explicit Password(std::string pwd) 
-		: _text(std::move(pwd)) {}
 
-		void changeTo(std::string newPwd) {
-			_text = std::move(newPwd);
-		}
+## 배정을 통한 복사를 사용 할 때의 잠재적 비용 증가 문제
+```cpp
+class Password {
+public:
+	explicit Password(std::string pwd) 
+	: _text(std::move(pwd)) {}
 
-	private:
-		std::string _text;
-	};
+	void changeTo(std::string newPwd) {
+		_text = std::move(newPwd);
+	}
 
-	std::string initPwd("Supercalifragilisticexpialidocious");
-	Password p(initPwd);
+private:
+	std::string _text;
+};
 
-	std::string newPassword = "Beware the Jabberwock adkfjsldkfjasdlkfj;asdflkjasd;flkjasdf;jkldsfjkls";
-	p.changeTo(newPassword);
-	```
-	* changeTo 함수에서 newPwd가 생성 될 때 std::string 복사 생성자 호출에서 새로운 패스워드를 담을 메모리 할당.
-	* 이후 newPwdrk _text로 이동 배정 될 때 기존 메모리 해제.
+std::string initPwd("Supercalifragilisticexpialidocious");
+Password p(initPwd);
 
-	```cpp
-	class Password {
-	public:
-		...
+std::string newPassword = "Beware the Jabberwock adkfjsldkfjasdlkfj;asdflkjasd;flkjasdf;jkldsfjkls";
+p.changeTo(newPassword);
+```
+* changeTo 함수에서 newPwd가 생성 될 때 std::string 복사 생성자 호출에서 새로운 패스워드를 담을 메모리 할당.
+* 이후 newPwd가 _text로 이동 배정 될 때 기존 메모리 해제.
 
-		void changeTo(const std::string& newPwd) {
-			_text = newPwd;
-		}
+```cpp
+class Password {
+public:
+	...
 
-	private:
-		std::string _text;
-	};
-	```
-	* overloading 방식을 이용하면 할당과 해제 문제 생략 가능
+	void changeTo(const std::string& newPwd) {
+		_text = newPwd;
+	}
 
+private:
+	std::string _text;
+};
+```
+* overloading 방식을 이용하면 할당과 해제 문제 생략 가능
+* 배정 연산을 통한 값 전달 방식의 추가 비용의 요인
+	* 전달 되는 형식
+	* 왼값 인수 대 오른값 인수 비율
+	* 전달 되는 형식의 동적 메모리 할당 사용 여부
+	동적 메모리 할당 사용 시 배정 연산자의 구현 방식과 배정 대상에 연관된 메모리가 배정의 원본에 연관된 메모리만큼 큰지의 여부
+	* std::string의 경우 구현이 작은 문자열 최적화 사용 여부
+	사용한다면 배정 되는 값이 SSO 버퍼에 들어가는 크기인지 여부
 
+## 값 전달 방식의 잘림 문제(slicing problme) 발생 가능성
+함수에서 파생된 형식의 객체를 값 전달 방식으로 전달 받았을 때 해당 객체의 파생 클래스 부분이 잘려 나가는 현상
+```cpp
+class Widget { ... };
+class SpecialWidget: public Widget { ... };
+void processWidget(Widget w);
+...
+SpecialWidget sw;
+...
+processWidget(sw);
+```
+
+## 기억해 둘 사항들
+* 이동이 저렴하고 항상 복사되는 복사 가능 매개변수에 대해서는 값 전달이 참조 전달만큼 효율적이고, 구현하기가 더 쉽고, 산출되는 목적 코드의 크기도 더 작다.
+* rvalue 인수의 경우 값 전달(즉, 복사 생성) 다음의 이동 배정은 참조 전달 다음의 복사 배정보다 훨씬 비쌀 가능성이 있다.
+* 값 전달에서는 잘림 문제가 발생할 수 있으므로, 일반적으로 기반 클래스 매개 변수 형식에 대해서는 값 전달이 적합하지 않다.
 
 	
